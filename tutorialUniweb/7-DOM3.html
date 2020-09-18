@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <title>Ejercicio 13 - DOM básico y atributos XHTML</title>
+    <script type="text/javascript">
+    var cont = 0;
+        function anade() {
+            //console.log("Llega"); // Nos permite ver por consola en el nav saber si ha entrado al método.
+            cont++;
+            // Llamamos al elemento "Lista"
+            var lista = document.getElementById("lista");
+
+            // "Creamos" la etiqueta hija del elemento recogido anteriormente
+            var elementoLista = document.createElement("li");
+
+            // Creamos el nodo de texto a añadir en la lista
+            var texto = document.createTextNode("Nuevo elemento nº "+cont);
+
+            // Podemos añadir un texto a través de innerHTML, un <p> auxiliar del documento, 
+            // añadiendo el contenido de la misma al resto de la lista. -> document.innerHTML = "contenido"
+
+            // Asociamos la etiqueta hija "li" al elemento "Lista"
+            lista.appendChild(elementoLista);
+
+            // Añadimos el texto a la lista
+            elementoLista.append(texto)
+
+            //TODO: Añadir un botón para borrar el elemento en cuestión
+            var botonBorrar = document.createElement("button");
+            botonBorrar.innerHTML="Borrar "+cont;
+            elementoLista.appendChild(botonBorrar);
+            elementoLista.append(botonBorrar);
+            
+            
+            
+        }
+    </script>
+</head>
+<body>
+    <ul id="lista">
+        <li>Lorem ipsum dolor sit amet</li>
+        <li>Consectetuer adipiscing elit</li>
+        <li>Sed mattis enim vitae orci</li>
+        <li>Phasellus libero</li>
+        <li>Maecenas nisl arcu</li>
+    </ul>
+    <input type="button" value="Anadir elemento" onclick="anade();">
+</body>
+</html>
