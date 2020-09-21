@@ -31,10 +31,19 @@
             botonBorrar.type = "button";
             botonBorrar.innerHTML = "Borrar "+cont;
             
-            elementoLista.appendChild(botonBorrar);
+            document.getElementById("lista").appendChild(botonBorrar);
+            // elementoLista.appendChild(botonBorrar); // Forma menos segura, usar la funcion anterior.
             elementoLista.append(botonBorrar);
             
-            botonBorrar.onclick = function(){elementoLista.parentNode.removeChild(elementoLista);}
+            botonBorrar.onclick = borrar;
+        }
+        function borrar(){
+            // console.log("aqui borramos "+this.parentNode.innerHTML);
+            var confirmacion = window.confirm("Desea realmente borrar el botón?");
+            if (confirmacion){
+                this.parentNode.parentNode.removeChild(this.parentNode);
+            }
+            
         }
         
     </script>
