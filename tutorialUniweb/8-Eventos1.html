@@ -24,47 +24,56 @@ Ejercicio 14
                 Completar el resto de enlaces de la página para que su comportamiento sea idéntico al del primer enlace
                 Cuando una sección se oculte, debe cambiar el mensaje del enlace asociado (pista: propiedad innerHTML)
             */
-            function muestraOculta(id) { /* Opcion con parámetro */
+
+            window.onload=function(){  // Opción cargado automático -> opción buena
+
+                var contador = 1;
+                var enlaces = document.getElementsByTagName("a");
                 
-                var parrafo = document.getElementById("contenidos_"+id);
-                var enlace = document.getElementById("enlace_"+id);
-                
-                if (parrafo.style.display == "block" || parrafo.style.display == ""){
-                    parrafo.style.display = "none";
-                    enlace.innerHTML = "Mostrar contenidos";
-                }
-                else {
-                    parrafo.style.display = "block";
-                    enlace.innerHTML = "Ocultar contenidos";
+                for (i = 0; i < enlaces.length ; i++){
+                    if (enlaces[i].id == "enlace_"+contador){
+
+                        enlaces[i].onclick = hacerClick;;
+
+                        contador++;
+                    }
                 }
             }
 
-            function muestraOculta(){ /* Opcion sin parámetro */
-                // console.log(this.event.target);
-                var enlace = this.event.target;
-                var numeroParrafo = enlace.id.split("_")[1];
-                var parrafo = document.getElementById("contenidos_"+numeroParrafo);
+            function hacerClick(){
 
-                if (parrafo.style.display == "block" || parrafo.style.display == ""){
-                    parrafo.style.display = "none";
-                    enlace.innerHTML = "Mostrar contenidos";
-                }
-                else {
-                    parrafo.style.display = "block";
-                    enlace.innerHTML = "Ocultar contenidos";
-                }
+                var enlace = this;
+                var parrafos = document.getElementsByTagName("p");
+                var numeroParrafo = this.id.split("_")[1];
+                var encontrado = false;
+                contador = 0;
 
+                while (!encontrado && contador < parrafos.length){
+                    if (contador+1 == numeroParrafo){
+                        if (parrafos[contador].style.display == "block" || parrafos[contador].style.display == ""){
+                            parrafos[contador].style.display = "none";
+                            enlace.innerHTML = "Mostrar contenidos";
+                        }
+                        else {
+                            parrafos[contador].style.display = "block";
+                            enlace.innerHTML = "Ocultar contenidos";
+                        }
+                        encontrado = true;
+                    }
+                    contador++;
+                }
             }
+            
         </script>
     </head>
     <body>
         <p id="contenidos_1">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
-        <a id="enlace_1" href="#" onclick="muestraOculta()">Ocultar contenidos</a>
+        <a id="enlace_1" href="#" >Ocultar contenidos</a>
         <br />
         <p id="contenidos_2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
-        <a id="enlace_2" href="#" onclick="muestraOculta()">Ocultar contenidos</a>
+        <a id="enlace_2" href="#" >Ocultar contenidos</a>
         <br />
         <p id="contenidos_3">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
-        <a id="enlace_3" href="#" onclick="muestraOculta()">Ocultar contenidos</a>
+        <a id="enlace_3" href="#" >Ocultar contenidos</a>
     </body>
 </html>

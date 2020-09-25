@@ -1,40 +1,30 @@
-// Variables utilizadas
 
-document.onmousemove = movimientoRaton;
-document.onkeypress = presionarTecla;
-document.onclick = hacerClick;
+// Inicio
+
+window.onload = function(){
+    document.onmousemove = movimientoRaton;
+    document.onkeypress = presionarTecla;
+    document.onclick = hacerClick;
+}
 
     // Funciones
 
 // movimientoRaton: Muestra las coordenadas del ratón según el nav y también según la pág.
 
-function movimientoRaton(elEvento){
+function movimientoRaton(){
     
-    var evento = elEvento || window.event;
-    var mensaje = new Array();
-
-    mensaje[0] = "Ratón:";
-    mensaje[1] = "Navegador: ("+evento.clientX+","+evento.clientY+")";
-    mensaje[2] = "Página: ("+evento.screenX+","+evento.screenY+")";
-
-    document.getElementById("info").style.backgroundColor = "#FFFFFF"; // Color de fondo: blanco
-
+    var mensaje = generarMensaje();
+    cambiarColor("#FFFFFF"); 
     muestraInformacion(mensaje);
+    
 }
 
 // presionarTecla: muestra información por el navegador acerca de la última tecla pulsada.
 
-function presionarTecla(elEvento){
- 
-    var evento = elEvento || window.event;
-    var mensaje = new Array();
+function presionarTecla(){
 
-    mensaje[0] = "Teclado:";
-    mensaje[1] = "Carácter: "+evento.keyCode;
-    mensaje[2] = "Código: "+evento.charCode;
-
-    document.getElementById("info").style.backgroundColor = "#CCE6FF"; // Color de fondo: Azul
-
+    var mensaje = generarMensaje();
+    cambiarColor("#CCE6FF"); // Color de fondo: Azul
     muestraInformacion(mensaje);
 
 }
@@ -42,19 +32,60 @@ function presionarTecla(elEvento){
 // hacerClick: cambia el color del recuadro de información al hacer click con el ratón. 
 // También muestra la información de la ubicación del cursor en ese momento, por motivos de coherencia.
 
-function hacerClick(elEvento){
- 
-    var evento = elEvento || window.event;
-    var mensaje = new Array();
+function hacerClick(){
 
-    mensaje[0] = "Ratón:";
-    mensaje[1] = "Navegador: ("+evento.clientX+","+evento.clientY+")";
-    mensaje[2] = "Página: ("+evento.screenX+","+evento.screenY+")";
-
-    document.getElementById("info").style.backgroundColor = "#FFFFCC"; // Color de fondo: Amarillo
-
+    var mensaje = generarMensaje();
+    cambiarColor("#FFFFCC"); // Color de fondo: Amarillo
     muestraInformacion(mensaje);
 
+}
+
+// generarMensaje: genera un array con el mensaje a mostrar por pantalla
+
+function generarMensaje(){
+
+    var evento = window.event;
+    var mensaje = new Array();
+
+    console.log(evento.type);
+
+    switch (evento.type){
+
+        case "mousemove":
+        case "click":
+        
+
+            mensaje[0] = "Ratón:";
+            mensaje[1] = "Navegador: ("+evento.clientX+","+evento.clientY+")";
+            mensaje[2] = "Página: ("+evento.screenX+","+evento.screenY+")";
+
+            break;
+        
+        case "keypress":
+
+            mensaje[0] = "Teclado:";
+            mensaje[1] = "Carácter: "+evento.keyCode;
+            mensaje[2] = "Código: "+evento.charCode;
+
+            break;
+    }
+    
+
+    return mensaje;
+}
+
+// cambiarColor: cambia el color del contenedor de información
+
+function cambiarColor(color){
+
+    document.getElementById("info").style.backgroundColor = color;
+
+}
+
+// Funcion moverCuadro: Mueve el cuadro de información en función del movimiento del ratón
+
+function moverCuadro(){
+    //TODO
 }
 
 // Función para mostrar la información deseada. Código ya proporcionado por el ejercicio.
