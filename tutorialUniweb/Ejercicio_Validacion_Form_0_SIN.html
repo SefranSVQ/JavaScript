@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Validar Formularios</title>
+		<style type="text/css">
+			span {
+				color: red;
+			}
+			
+		</style>
+		<!-- <script src="Utilidades.js"></script> -->
+		<script>
+
+			window.onload = function(){
+
+				document.getElementById("nombre").onkeypress=soloLetras;
+				document.getElementById("formulario_1").onsubmit=validar;
+			}
+	
+
+			function soloLetras(e){
+	
+				var valido = false;
+
+				if ((e.key >= 'a' && e.key <= 'z') ||
+					(e.key >= 'A' && e.key <= 'Z' ) || 
+					"áéíóúÁÉÍÓÚñÑ ".indexOf(e.key) != -1) {
+						valido = true;
+					}
+
+				return valido;
+			}		
+
+			function validar(){
+
+				var nombreValido = true;
+				var DNIValido = true;
+				var sexoValido = true;
+				var sugerenciaValida = true;
+				var todoEsValido = false;
+
+				var numeros = "0123456789";
+				var letras = "TRWAGMYFPDXBNJZSQVHLCKET";
+				var resto = 0;
+				var parteNumerica = "";
+
+				var nombre = document.getElementById("nombre");
+				var infoNombre = document.getElementById("info_nombre");
+
+				var dni = document.getElementById("dni");
+				var infoDNI = document.getElementById("info_dni");
+
+				var sexo = document.getElementById("sexo");
+				var infoSexo = document.getElementById("info_sexo");
+
+				var sugerencia = document.getElementById("sugerencia");
+				var infoSugerencia = document.getElementById("info_sugerencia");
+				
+				// Validación de la longitud del nombre
+
+				if (nombre.value.length < 2) { 
+					
+					nombreValido = false;
+					infoNombre.innerHTML = "Nombre demasiado corto";
+					//nombre.focus();
+				}
+				else {
+					nombreValido = true;
+					infoNombre.innerHTML = "";
+				}
+				
+				// Validación del DNI
+
+				if (dni.value.length != 9){ // Comprobamos la longitud
+					infoDNI.innerHTML = "Longitud del DNI incorrecta";
+					DNIValido = false;
+				}
+				else {
+					// Comprobar si es NIF y si es así, cambiar la letra por el número correspondiente
+
+					dni.value = dni.value.toUpperCase(); // Pasamos todo a mayúsculas
+					parteNumerica = dni.value.substr(0,8);
+
+					if (numeros.indexOf(dni.value.charAt(0)) == -1){
+						switch (dni.value.charAt(0)){
+							case 'X':
+								parteNumerica = '0'+dni.value.substr(1,8);
+								break;
+							case 'Y':
+								parteNumerica = '1'+dni.value.substr(1,8);
+								break;
+							case 'Z':
+								parteNumerica = '2'+dni.value.substr(1,8);
+								break;
+						}
+					}
+					
+					// Comprobamos que los caracteres 0-7 son números
+					for (i = 0; i < 8 && DNIValido; i++){
+						if (numeros.indexOf(parteNumerica.charAt(i)) == -1){ 
+							infoDNI.innerHTML = "Posicion "+(i+1)+" no válida";
+							DNIValido = false;
+						}
+					}
+
+					// Comprobamos que el último carácter es una letra válida
+					if (DNIValido && letras.indexOf(dni.value.charAt(8)) != -1){
+						resto = parseInt(parteNumerica) % 23;
+						
+						if (dni.value.charAt(8) != letras.charAt(resto)){
+							DNIValido = false;
+							infoDNI.innerHTML = "Letra no válida.";
+						}
+					}
+
+					if (DNIValido){ // Si después de todo esto es válido...
+						infoDNI.innerHTML = "";
+						DNIValido = true;
+					}
+				}
+
+				// Indicar que debe seleccionar un sexo.
+				console.log(sexo.value);
+				if (sexo.value.length == 0){
+					infoSexo.innerHTML = "Por favor, seleccione un sexo";
+					sexoValido = false;
+				}
+				else{
+					infoSexo.innerHTML = "";
+					sexoValido = true;
+				}
+
+				// Indicar que debe escribir alguna sugerencia.
+				console.log(sugerencia.value.length);
+				if (sugerencia.value.length < 10){
+					infoSugerencia.innerHTML = "Por favor, sugiéranos algo";
+					sugerenciaValida = false;
+				}
+				else {
+					infoSugerencia.innerHTML = "";
+					sugerenciaValida = true;
+				}
+
+				// Devuelve si todo es válido o no
+
+				todoEsValido = (nombreValido && DNIValido && sexoValido && sugerenciaValida);
+
+				return todoEsValido;
+			}
+
+		</script>
+	</head>
+
+	<body>
+
+		<h1>Ejercicio Validación de Formularios</h1>
+		<form id="formulario_1" action="hasgdhgsdc">
+		<p>
+			<h3>Formulario de Registro:</h3>
+			<label for="nombre">Nombre: </label>
+			<input type="text" name="nombre" id="nombre" maxlength="25" size="15" />
+			<span id="info_nombre"></span>
+			<div>(Mínimo 2 letras)</div>
+			<br><br>
+			
+			<label for="dni">NIF: </label>
+			<input type="text" name="dni" id="dni" maxlength="9" size="9" />
+			<span id="info_dni"></span>
+			<br><br><br>
+			
+      <label>Sexo: </label>
+			<select id="sexo">
+				<option value="">Selecciona una opción</option>
+				<option value="F">Femenino</option>
+				<option value="M">Masculino</option>
+				<option value="Y">Ya quisiera yo</option>
+			</select>
+			<span id="info_sexo"></span>
+      
+      <br><br><br>
+      <label for="sugerencia">Alguna sugerencia: </label>
+      <textarea id="sugerencia" name="sugerencia"></textarea>
+			<span id="info_sugerencia"></span>
+      <br><br>
+		</p>
+		<p><b>Todos los campos son obligatorios.</b></p>
+		<br>
+		<p>
+			<input type="submit" value="ENVIAR">
+			<br><br>
+			<input type="reset" value="Limpiar">
+			
+		</p>
+		</form>
+	</body>
+</html>
+
+
