@@ -34,7 +34,7 @@
 			function validar(){
 
 				var nombreValido = true;
-				var DNIValido = true;
+				var dniValido = true;
 				var sexoValido = true;
 				var sugerenciaValida = true;
 				var todoEsValido = false;
@@ -72,11 +72,11 @@
 				// Validación del DNI
 
 				if (dni.value.length != 9){ // Comprobamos la longitud
-					infoDNI.innerHTML = "Longitud del DNI incorrecta";
-					DNIValido = false;
+					infoDNI.innerHTML = "DNI incorrecto";
+					dniValido = false;
 				}
 				else {
-					// Comprobar si es NIF y si es así, cambiar la letra por el número correspondiente
+					// Comprobar si es NIE y si es así, cambiar la letra por el número correspondiente
 
 					dni.value = dni.value.toUpperCase(); // Pasamos todo a mayúsculas
 					parteNumerica = dni.value.substr(0,8);
@@ -96,26 +96,26 @@
 					}
 					
 					// Comprobamos que los caracteres 0-7 son números
-					for (i = 0; i < 8 && DNIValido; i++){
+					for (i = 0; i < 8 && dniValido; i++){
 						if (numeros.indexOf(parteNumerica.charAt(i)) == -1){ 
-							infoDNI.innerHTML = "Posicion "+(i+1)+" no válida";
-							DNIValido = false;
+							infoDNI.innerHTML = "DNI incorrecto";
+							dniValido = false;
 						}
 					}
 
 					// Comprobamos que el último carácter es una letra válida
-					if (DNIValido && letras.indexOf(dni.value.charAt(8)) != -1){
+					if (dniValido && letras.indexOf(dni.value.charAt(8)) != -1){
 						resto = parseInt(parteNumerica) % 23;
 						
 						if (dni.value.charAt(8) != letras.charAt(resto)){
-							DNIValido = false;
-							infoDNI.innerHTML = "Letra no válida.";
+							dniValido = false;
+							infoDNI.innerHTML = "DNI incorrecto";
 						}
 					}
 
-					if (DNIValido){ // Si después de todo esto es válido...
+					if (dniValido){ // Si después de todo esto es válido...
 						infoDNI.innerHTML = "";
-						DNIValido = true;
+						dniValido = true;
 					}
 				}
 
@@ -143,7 +143,7 @@
 
 				// Devuelve si todo es válido o no
 
-				todoEsValido = (nombreValido && DNIValido && sexoValido && sugerenciaValida);
+				todoEsValido = (nombreValido && dniValido && sexoValido && sugerenciaValida);
 
 				return todoEsValido;
 			}
