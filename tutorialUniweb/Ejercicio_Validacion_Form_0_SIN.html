@@ -62,7 +62,7 @@
 					
 					nombreValido = false;
 					infoNombre.innerHTML = "Nombre demasiado corto";
-					//nombre.focus();
+					nombre.value = "";
 				}
 				else {
 					nombreValido = true;
@@ -73,6 +73,7 @@
 
 				if (dni.value.length != 9){ // Comprobamos la longitud
 					infoDNI.innerHTML = "DNI incorrecto";
+					dni.value = "";
 					dniValido = false;
 				}
 				else {
@@ -99,6 +100,7 @@
 					for (i = 0; i < 8 && dniValido; i++){
 						if (numeros.indexOf(parteNumerica.charAt(i)) == -1){ 
 							infoDNI.innerHTML = "DNI incorrecto";
+							dni.value = "";
 							dniValido = false;
 						}
 					}
@@ -109,6 +111,7 @@
 						
 						if (dni.value.charAt(8) != letras.charAt(resto)){
 							dniValido = false;
+							dni.value = "";
 							infoDNI.innerHTML = "DNI incorrecto";
 						}
 					}
@@ -124,6 +127,7 @@
 				if (sexo.value.length == 0){
 					infoSexo.innerHTML = "Por favor, seleccione un sexo";
 					sexoValido = false;
+					sexo.value = "";
 				}
 				else{
 					infoSexo.innerHTML = "";
@@ -135,11 +139,19 @@
 				if (sugerencia.value.length < 10){
 					infoSugerencia.innerHTML = "Por favor, sugiéranos algo";
 					sugerenciaValida = false;
+					sugerenciaValida.value = "";
 				}
 				else {
 					infoSugerencia.innerHTML = "";
 					sugerenciaValida = true;
 				}
+
+				// Poner el foco en el primer elemento  erróneo.
+
+				if (!nombreValido) nombre.focus();
+				else if (!dniValido) dni.focus();
+				else if (!sexoValido) sexo.focus();
+				else if (!sugerenciaValida) sugerencia.focus();
 
 				// Devuelve si todo es válido o no
 
