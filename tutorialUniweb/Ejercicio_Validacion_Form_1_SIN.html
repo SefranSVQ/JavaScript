@@ -8,7 +8,7 @@
 			}
 			
 		</style>
-		
+		<script type="text/javascript" src="util.js"></script>
 		<script type="text/javascript">
 
 			//import * as util from 'util.js';
@@ -65,6 +65,8 @@
 				var dia = document.getElementById("f_dia");
 				var mes = document.getElementById("f_mes");
 				var anio = document.getElementById("f_ano");
+				var fechaUsuario = new Date(anio.value+"-"+mes.value+"-"+dia.value);
+				var hoy = new Date();
 				var infoFecha = document.getElementById("info_fecha");
 
 				var sugerencia = document.getElementById("sugerencia");
@@ -160,10 +162,8 @@
 					sexoValido = true;
 				}
 
-				// Fecha
-				/*
-				fechaValida = util.validarFecha(dia.value,mes.value,anio.value);
-				console.log(fechaValida); */
+				// Validacion de Fecha
+				fechaValida = validarFecha(dia.value,mes.value,anio.value);
 
 				if (!fechaValida){
 					infoFecha.innerHTML = "fecha inválida";

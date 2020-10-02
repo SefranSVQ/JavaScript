@@ -11,12 +11,23 @@ Esta función nos comprobará que una fecha es válida o no en función de su d�
 
 function validarFecha(dia,mes,anio){
 
+    var fechaHoy = new Date();
+    var fechaUsuario = new Date(anio+"-"+mes+"-"+dia);
     var valido = true;
     var bisiesto = anio % 4 == 0;
 
-    // Comprobamos los datos básicos de una fecha. (En esta funcion solo se aceptan fechas con años positivos)
+    // Comprobamos que los datos del usuario son correctos
 
-    if (dia < 1 || dia > 31 || mes < 1 || mes > 12 || anio < 0){
+    console.log( fechaUsuario.getFullYear() );
+
+    if (typeof(dia) != "number" || typeof(mes) != "number" || typeof(anio) != "number") valido = false;
+
+    // Comprobamos los datos básicos de una fecha. (En esta funcion solo se aceptan fechas con años superiores a 1900)
+
+    if (dia < 1 || dia > 31 || 
+        mes < 1 || mes > 12 || 
+        anio < 1900 || 
+        fechaUsuario > fechaHoy){
         valido = false
     }
 
@@ -28,13 +39,9 @@ function validarFecha(dia,mes,anio){
                 if (bisiesto && dia > 29) valido = false; // Bisiesto
                 else if (!bisiesto && dia > 28) valido = false;
                 break;
-            case 4:
-            case 6:
-            case 9:
-            case 11:
+            case 4: case 6: case 9: case 11:
                 if (dia > 30) valido = false;
                 break;
-            
         }
     }
 
@@ -147,6 +154,10 @@ window.onload = function(){
     infoFechas.innerHTML += "Fecha 29/2/2020 : "+validarFecha(29,2,2020)+"</br>";
     infoFechas.innerHTML += "Fecha 29/2/2019 : "+validarFecha(29,2,2019)+"</br></br>";
 
+    infoFechas.innerHTML += "Fecha kk/k/kkkk : "+validarFecha("kk","kk","kkkk")+"</br></br>";
+
+    infoFechas.innerHTML += "Fecha 11/1/2.19 : "+validarFecha(1.1,1,2.19)+"</br></br>";
+
     // Test soloLetra
 
     infoFechas.innerHTML += "Tests de soloLetras: </br>";
@@ -163,8 +174,6 @@ window.onload = function(){
     infoDNI.innerHTML += "DNI - x0000000T: "+validarDni("x0000000T")+"</br>";
     infoDNI.innerHTML += "DNI - 00000001R: "+validarDni("00000001R")+"</br>";
     infoDNI.innerHTML += "DNI - y0000001R: "+validarDni("y000001R")+"</br>";
-
-
 
 }
 
