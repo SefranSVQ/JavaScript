@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Validar Formularios</title>
+		<style type="text/css">
+			span {
+				color: red;
+			}
+			
+		</style>
+		
+		<script type="text/javascript">
+
+			//import * as util from 'util.js';
+
+			window.onload = function(){
+
+				document.getElementById("nombre").onkeypress=soloLetras;
+				document.getElementById("formulario_1").onsubmit=validar;
+
+			}
+
+
+			function soloLetras(e){
+
+				var valido = false;
+
+				if ((e.key >= 'a' && e.key <= 'z') ||
+					(e.key >= 'A' && e.key <= 'Z' ) || 
+					"áéíóúÁÉÍÓÚñÑ ".indexOf(e.key) != -1) {
+						valido = true;
+					}
+
+				return valido;
+			}		
+
+			
+			function validar(){
+
+				var nombreValido = true;
+				var apellidosValido = true;
+				var dniValido = true;
+				var sexoValido = true;
+				var fechaValida = true;
+				var sugerenciaValida = true;
+				var todoEsValido = false;
+
+				var numeros = "0123456789";
+				var letras = "TRWAGMYFPDXBNJZSQVHLCKET";
+				var resto = 0;
+				var parteNumerica = "";
+
+				var nombre = document.getElementById("nombre");
+				var infoNombre = document.getElementById("info_nombre");
+
+				var apellidos = document.getElementById("apellidos");
+				var infoApellidos = document.getElementById("info_apellidos"); 
+
+				var dni = document.getElementById("dni");
+				var infoDNI = document.getElementById("info_dni");
+
+				var sexo = document.getElementById("sexo");
+				var infoSexo = document.getElementById("info_sexo");
+
+				var dia = document.getElementById("f_dia");
+				var mes = document.getElementById("f_mes");
+				var anio = document.getElementById("f_ano");
+				var infoFecha = document.getElementById("info_fecha");
+
+				var sugerencia = document.getElementById("sugerencia");
+				var infoSugerencia = document.getElementById("info_sugerencia");
+
+				// Validación de la longitud del nombre
+
+				if (nombre.value.length < 2) { 
+					
+					nombreValido = false;
+					infoNombre.innerHTML = "Nombre demasiado corto";
+					nombre.value = "";
+				}
+				else {
+					nombreValido = true;
+					infoNombre.innerHTML = "";
+				}
+
+				// Validación de la longitud del apellido
+
+				if (apellidos.value.length < 4) { 
+					
+					apellidosValido = false;
+					infoApellidos.innerHTML = "Apellidos demasiado corto";
+					apellidos.value = "";
+				}
+				else {
+					apellidosValido = true;
+					infoApellidos.innerHTML = "";
+				}
+
+				// Validación del DNI
+
+				if (dni.value.length != 9){ // Comprobamos la longitud
+					infoDNI.innerHTML = "DNI incorrecto";
+					dni.value = "";
+					dniValido = false;
+				}
+				else {
+					// Comprobar si es NIE y si es así, cambiar la letra por el número correspondiente
+
+					dni.value = dni.value.toUpperCase(); // Pasamos todo a mayúsculas
+					parteNumerica = dni.value.substr(0,8);
+
+					if (numeros.indexOf(dni.value.charAt(0)) == -1){
+						switch (dni.value.charAt(0)){
+							case 'X':
+								parteNumerica = '0'+dni.value.substr(1,8);
+								break;
+							case 'Y':
+								parteNumerica = '1'+dni.value.substr(1,8);
+								break;
+							case 'Z':
+								parteNumerica = '2'+dni.value.substr(1,8);
+								break;
+						}
+					}
+					
+					// Comprobamos que los caracteres 0-7 son números
+					for (i = 0; i < 8 && dniValido; i++){
+						if (numeros.indexOf(parteNumerica.charAt(i)) == -1){ 
+							infoDNI.innerHTML = "DNI incorrecto";
+							dni.value = "";
+							dniValido = false;
+						}
+					}
+
+					// Comprobamos que el último carácter es una letra válida
+					if (dniValido && letras.indexOf(dni.value.charAt(8)) != -1){
+						resto = parseInt(parteNumerica) % 23;
+						
+						if (dni.value.charAt(8) != letras.charAt(resto)){
+							dniValido = false;
+							dni.value = "";
+							infoDNI.innerHTML = "DNI incorrecto";
+						}
+					}
+
+					if (dniValido){ // Si después de todo esto es válido...
+						infoDNI.innerHTML = "";
+						dniValido = true;
+					}
+				}
+
+				// Indicar que debe seleccionar un sexo.
+				if (sexo.value.length == 0){
+					infoSexo.innerHTML = "Por favor, seleccione un sexo";
+					sexoValido = false;
+					sexo.value = "";
+				}
+				else{
+					infoSexo.innerHTML = "";
+					sexoValido = true;
+				}
+
+				// Fecha
+				/*
+				fechaValida = util.validarFecha(dia.value,mes.value,anio.value);
+				console.log(fechaValida); */
+
+				if (!fechaValida){
+					infoFecha.innerHTML = "fecha inválida";
+					dia.value = "";
+					mes.value = "";
+					anio.value = "";
+				}
+
+				// Indicar que debe escribir alguna sugerencia.
+				if (sugerencia.value.length < 10){
+					infoSugerencia.innerHTML = "Por favor, sugiéranos algo";
+					sugerenciaValida = false;
+					sugerencia.value = "";
+				}
+				else {
+					infoSugerencia.innerHTML = "";
+					sugerenciaValida = true;
+				}
+
+				// Poner el foco en el primer elemento  erróneo.
+
+				if (!nombreValido) nombre.focus();
+				else if (!apellidosValido) apellidos.focus();
+				else if (!dniValido) dni.focus();
+				else if (!sexoValido) sexo.focus();
+				else if (!sugerenciaValida) sugerencia.focus();
+
+				// Devuelve si todo es válido o no
+
+				todoEsValido = (nombreValido && apellidosValido && dniValido && sexoValido && sugerenciaValida);
+
+				return todoEsValido;
+			}
+
+		
+			
+		</script>
+	</head>
+
+	<body>
+
+		<h1>Ejercicio Validación de Formularios</h1>
+		<form id="formulario_1">
+		<p>
+			<h3>Formulario de Registro:</h3>
+			<label for="nombre">Nombre: </label>
+			<input type="text" name="nombre" id="nombre" maxlength="25" size="15" />
+			<span id="info_nombre"></span>
+			<div>(Mínimo 2 letras)</div>
+			<br><br>
+			
+			<label for="apellidos">Apellidos: </label>
+			<input type="text" name="apellidos" id="apellidos" maxlength="50" size="25" />
+			<span id="info_apellidos"></span>
+			<div>(Mínimo 4 letras)</div>
+			<br><br>
+			
+			<label for="dni">NIF: </label>
+			<input type="text" name="dni" id="dni" maxlength="9" size="9" />
+			<span id="info_dni"></span>
+			<br><br><br>
+			
+      <label>Sexo: </label>
+			<select id="sexo">
+				<option value="">Selecciona una opción</option>
+				<option value="F">Femenino</option>
+				<option value="M">Masculino</option>
+				<option value="Y">Ya quisiera yo</option>
+			</select>
+			<span id="info_sexo"></span>
+			<br><br><br>
+			
+			<label for="f_dia">Fecha: </label>
+      <input type="text" id="f_dia" maxlength="2" size="1" /> / 
+      <input type="text" id="f_mes" maxlength="2" size="1" /> / 
+      <input type="text" id="f_ano" maxlength="4" size="3" /> (dd/mm/aaaa) 
+      <span id="info_fecha"></span>
+      <br><br><br>
+      
+      <label for="sugerencia">Alguna sugerencia: </label>
+      <textarea id="sugerencia" name="sugerencia"></textarea>
+			<span id="info_sugerencia"></span>
+      <br><br>
+		</p>
+		<p><b>Todos los campos son obligatorios.</b></p>
+		<br>
+		<p>
+			<input type="submit" value="ENVIAR" >
+			<br><br>
+			<input type="reset" value="Limpiar">
+			
+		</p>
+		</form>
+	</body>
+</html>
+
+
