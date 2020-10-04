@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Validar Formularios</title>
+		<style type="text/css">
+			span {
+				color: red;
+			}
+			
+		</style>
+		<script src="util.js"></script>
+		<script>
+
+			window.onload = function(){
+
+				document.getElementById("nombre").onkeypress=soloLetras;
+				document.getElementById("estatura").onkeypress=soloNumerosDecimales;
+				document.getElementById("formulario_1").onsubmit=validar;
+
+			}
+
+			function validar(){
+
+				var todoEsValido = true;
+
+				var nombre = document.getElementById("nombre");
+				var infoNombre = document.getElementById("info_nombre");
+				var nombreValido = true;
+
+				var apellidos = document.getElementById("apellidos");
+				var infoApellidos = document.getElementById("info_apellidos"); 
+				var apellidosValido = true;
+
+				var dni = document.getElementById("dni");
+				var infoDNI = document.getElementById("info_dni");
+				var dniValido = true;
+
+				var sexo = document.getElementsByName("sexo");
+				var infoSexo = document.getElementById("info_sexo");
+				var sexoValido = true;
+
+				var dia = document.getElementById("f_dia");
+				var mes = document.getElementById("f_mes");
+				var anio = document.getElementById("f_ano");
+				var infoFecha = document.getElementById("info_fecha");
+				var fechaValida = true;
+
+				var estatura = document.getElementById("estatura");
+				var infoEstatura = document.getElementById("info_estatura");
+				var estaturaValida = true;
+
+				var estadoCivil = document.getElementById("estado_civil");
+				var infoEstadoCivil = document.getElementById("info_estado_civil");
+				var estadoCivilValido = true;
+
+				var bebidas = document.getElementsByName("bebidas");
+				var infoBebidas = document.getElementById("info_bebidas");
+				var bebidasSeleccionadas = 0;
+				var bebidasValidas = true;
+
+				var cuentaCorriente = document.getElementById("ccc");
+				var infocc = document.getElementById("info_ccc");
+				var ccValida = true;
+
+				var sugerencia = document.getElementById("sugerencia");
+				var infoSugerencia = document.getElementById("info_sugerencia");
+				var sugerenciaValida = true;
+
+				// Nombre
+				if (comprobarLongitudTexto(nombre.value,2)) { 
+					nombreValido = true;
+					infoNombre.innerHTML = "";
+				}
+				else {
+					nombreValido = false;
+					infoNombre.innerHTML = "Nombre demasiado corto";
+					nombre.value = "";
+				}
+
+				// Apellidos
+				if (comprobarLongitudTexto(apellidos.value,4)) { 
+					apellidosValido = true;
+					infoApellidos.innerHTML = "";
+				}
+				else {
+					apellidosValido = false;
+					infoApellidos.innerHTML = "Apellidos demasiado corto";
+					apellidos.value = "";
+				}
+
+				// DNI
+				if (validarDni(dni.value)){
+					infoDNI.innerHTML = "";
+					dniValido = true;
+				}
+				else {
+					infoDNI.innerHTML = "DNI Incorrecto";
+					dniValido = false;
+				}
+				
+				// Sexo
+				if (comprobarSiHayItemSeleccionado(sexo)){
+					infoSexo.innerHTML = "";
+					sexoValido = true;
+				}
+				else{
+					infoSexo.innerHTML = "Por favor, seleccione un sexo";
+					sexoValido = false;
+					sexo.value = "";
+				}
+
+				// Fecha
+				fechaValida = validarFecha(parseInt(dia.value),parseInt(mes.value),parseInt(anio.value));
+				if (!fechaValida){
+					infoFecha.innerHTML = "Fecha inválida";
+					dia.value = "";
+					mes.value = "";
+					anio.value = "";
+				}
+
+				// Estatura
+				if (!isNaN(parseFloat(estatura.value)) && 0.5 < parseFloat(estatura.value) && parseFloat(estatura.value) < 2.5){
+					infoEstatura.innerHTML = "";
+					estaturaValida = true;
+				}
+				else {
+					infoEstatura.innerHTML = "Valor inválido";
+					estaturaValida = false;
+					estatura.value = "";
+				}
+
+				// Estado Civil
+				if (estadoCivil.value != "-1"){
+					estadoCivilValido = true;
+					infoEstadoCivil.innerHTML = "";
+				}
+				else {
+					estadoCivilValido = false;
+					infoEstadoCivil.innerHTML = "Seleccione una opción";
+				}
+
+				// Bebidas
+				for (var i in bebidas){
+					if (bebidas[i].checked) bebidasSeleccionadas++;
+				}
+
+				if (bebidasSeleccionadas >= 3){
+					bebidasValidas = true;
+					infoBebidas.innerHTML = "";
+				}
+				else {
+					bebidasValidas = false;
+					infoBebidas.innerHTML = "Debe seleccionar al menos 3";
+					for (var i in bebidas){
+						bebidas[i].checked = false;
+					}
+				}
+
+				// Cuenta Corriente
+				if (validarIBAN(cuentaCorriente.value)){
+					infocc.innerHTML = "";
+					ccValida = false;
+				}
+				else {
+					infocc.innerHTML = "Cuenta bancaria no válida";
+					cuentaCorriente.value = "";
+					ccValida = false;
+				}
+
+				// Indicar que debe escribir alguna sugerencia.
+				if (sugerencia.value.length < 10){
+					infoSugerencia.innerHTML = "Por favor, sugiéranos algo";
+					sugerenciaValida = false;
+					sugerencia.value = "";
+				}
+				else {
+					infoSugerencia.innerHTML = "";
+					sugerenciaValida = true;
+				}
+
+				// Poner el foco en el primer elemento  erróneo.
+
+				if (!nombreValido) nombre.focus();
+				else if (!apellidosValido) apellidos.focus();
+				else if (!dniValido || !sexo) dni.focus();
+				else if (!fechaValida) dia.focus();
+				else if (!estaturaValida) estatura.focus();
+				else if (!estadoCivilValido || !bebidasValidas) estadoCivil.focus();
+				else if (!sugerenciaValida) sugerencia.focus();
+
+				// Devuelve si todo es válido o no
+
+				todoEsValido = (nombreValido && apellidosValido && dniValido && estadoCivilValido
+								&& sexoValido && sugerenciaValida && ccValida && bebidasValidas);
+
+				return todoEsValido;
+			}
+		</script>
+	</head>
+
+	<body>
+
+		<h1>Ejercicio Validación de Formularios</h1>
+		<form id="formulario_1">
+		<p>
+			<h3>Formulario de Registro:</h3>
+			<label for="nombre">Nombre: </label>
+			<input type="text" name="nombre" id="nombre" maxlength="25" size="15" />
+			<span id="info_nombre"></span>
+			<div>(Mínimo 2 letras)</div>
+			<br><br>
+			
+			<label for="apellidos">Apellidos: </label>
+			<input type="text" name="apellidos" id="apellidos" maxlength="50" size="25" />
+			<span id="info_apellidos"></span>
+			<div>(Mínimo 4 letras)</div>
+			<br><br>
+			
+			<label for="dni">NIF: </label>
+			<input type="text" name="dni" id="dni" maxlength="9" size="9" />
+			<span id="info_dni"></span>
+			<br><br><br>
+			
+      		
+			
+			<label>Sexo: </label>
+			<input type="radio" name="sexo" value="femenino" />
+			<label for="femenino">Femenino</label>
+			<input type="radio" name="sexo" value="masculino" />
+			<label for="masculino">Masculino</label>
+			<input type="radio" name="sexo" value="ni_me_acuerdo" />
+			<label for="ni_me_acuerdo">hace tanto que ni me acuerdo</label>
+			<span id="info_sexo"></span>
+					<br><br><br>
+			
+			
+			
+			<label for="f_dia">Fecha: </label>
+      <input type="text" id="f_dia" maxlength="2" size="1" /> / 
+      <input type="text" id="f_mes" maxlength="2" size="1" /> / 
+      <input type="text" id="f_ano" maxlength="4" size="3" /> (dd/mm/aaaa) 
+      <span id="info_fecha"></span>
+      <br><br><br>
+			
+			
+			
+			<label for="estatura">Estatura (en metros): </label>
+			<input type="text" id="estatura" size="5" maxlength="7"> 
+			<span id="info_estatura"></span>
+			<br><br><br>
+			
+			
+			<label for="estado_civil">Estado Civil: </label>
+      <select id="estado_civil"><span id="info_estado_civil"></span>
+      	<option value="-1">Selecciona una opción</option>
+      	<option value="1">Soltera/o</option>
+      	<option value="2">Casada/o</option>
+      	<option value="3">Separada/o</option>
+      	<option value="4">Divorciada/o</option>
+      	<option value="5">Pareja de hecho</option>
+      	<option value="6">En la gloria</option>
+      	<option value="7">Es complicado!!!!</option>
+      </select> 
+			<span id="info_estado_civil"></span>
+      <br><br><br>
+			
+			
+			<div>Preferencias en zumos de cebada: </div>
+			
+			<ul>
+				<li>
+					<input type="checkbox" name="bebidas" value="paulaner" />
+					<label>Paulaner</label>
+				</li>
+				<li>
+					<input type="checkbox" name="bebidas" value="coronita" />
+					<label>Coronita</label>
+				</li>
+				<li>
+					<input type="checkbox" name="bebidas" value="cruzcampo" />
+					<label>Cruzcampo</label>
+				</li>
+				<li>
+					<input type="checkbox" name="bebidas" value="desperados" />
+					<label>Desperados</label>
+				</li>
+				<li>
+					<input type="checkbox" name="bebidas" value="grimbergen" />
+					<label>Grimbergen optimo bruno</label>
+				</li>
+				<li>
+					<input type="checkbox" name="bebidas" value="judas" />
+					<label>Judas</label>
+				</li>
+				<li>
+					<input type="checkbox" name="bebidas" value="lucifer" />
+					<label>Lucifer</label>
+				</li>
+				<li>
+					<input type="checkbox" name="bebidas" value="ambar" />
+					<label>Ambar Export</label>
+				</li>
+			</ul>
+      <span id="info_bebidas"></span>
+			<div>(Mínimo 3 opciones)</div>
+      <br><br>
+			
+			
+			<label for="cc">Número Cuenta Corriente: </label>
+			<input type="text" name="ccc" id="ccc" maxlength="20" size="22" /> 
+      		<span id="info_ccc"></span>
+			<div>(20 dígitos sin blancos)</div>
+			<br><br><br>
+			
+      
+      <label for="sugerencia">Alguna sugerencia: </label>
+      <textarea id="sugerencia" name="sugerencia"></textarea>
+			<span id="info_sugerencia"></span>
+      <br><br>
+		</p>
+		<p><b>Todos los campos son obligatorios.</b></p>
+		<br>
+		<p>
+			<input type="submit" value="ENVIAR" >
+			<br><br>
+			<input type="reset" value="Limpiar">
+			
+		</p>
+		</form>
+	</body>
+</html>
+
+

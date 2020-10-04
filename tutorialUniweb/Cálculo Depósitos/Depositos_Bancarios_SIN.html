@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>   
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <title>Depósitos Bancarios</title>
+    <style>  
+      
+    </style>
+    
+    <script>
+      
+    </script>
+  </head>
+  <body class="cuerpo-pagina"> 
+  <h2>Depósitos Bancarios a Plazo Fijo</h2>
+  <form name="FDep">
+    <div id="divIzq" class="parte-t1">
+
+      <div id="divPeriodo" class="caja-t1">
+        Periodo del Depósito:<br>
+        <input type="radio" name="pm" value="3">3 Meses<br>
+        <input type="radio" name="pm" checked value="4" >4 Meses<br>
+        <input type="radio" name="pm" value="6">6 Meses<br>
+        <input type="radio" name="pm" value="12" >12 Meses<br>
+        <input type="radio" name="pm" value="18" >18 Meses<br>
+        <input type="radio" name="pm" value="24">24 Meses<br>
+        <input type="radio" name="pm" value="0">Otro periodo:<br>
+        <input type="text" name="otro_periodo" size="1" maxlength="2" value="36" disabled> Meses.
+      </div>
+
+      <div id="divRenta" class="caja-t1">
+        Rentabilidad<br>
+        <div class="subcaja-TipoRent">
+          <input type="radio" name="tipo_rentabilidad" checked value="T" >TAE<br>
+          <input type="radio" name="tipo_rentabilidad" value="N" >TIN <br>
+
+        </div>
+        <div id="divPorc" class="subcaja-porc">
+          <input type="text" name="rentabilidad_TAE" size="2" value="4" maxlength="5"> %
+          <br>
+          <input type="text" name="rentabilidad_TIN" size="2" maxlength="5" disabled> %
+        </div>
+        <br><br>
+      </div>
+    </div> 
+
+    <div id="divDer" class="parte-t2">
+      <div id="divCantidad" class="caja-t1">
+        Cantidad a <br>Depositar
+        <input type="text" name="cantidad" size="5" value="5000"> €
+      </div>
+      <div id="divBeneficio" class="caja-t2">
+        <input type="button" name="calculo" value="Calcular Beneficio" ><br><br>
+        Bruto: <input type="text" name="beneficio" size="5" disabled value=""> €
+        <br><br>
+        Neto: <input type="text" name="beneficio_neto" size="5" disabled value=""> €
+      </div>
+      <div id="divInfo">
+        Para más información, consulte: <br>
+        <a href="http://es.wikipedia.org/wiki/Interes">Interés en Wikipedia</a>
+      </div>
+    </div>
+  </form>
+</body>
+</html>
