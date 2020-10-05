@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>   
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plantilla</title>
+		
+    <script type="text/javascript">
+	
+		window.onload = function (){
+			//Factorial
+			document.getElementById("btFactorial").onclick = factorial;
+			document.getElementById("numero").onkeypress = soloNumeros;
+
+			//Datos personales
+			document.getElementById("btHoroscopo").onclick = datosPersonales;
+			document.getElementById("nombre").onkeypress = soloLetras;
+			document.getElementById("fDia").onkeypress = soloNumeros;
+			
+			//Generador de parrafos
+			document.getElementById("btParrafos").onclick = generarParrafos;
+			document.getElementById("nParrafos").onkeypress = soloNumeros;
+			document.getElementById("contParrafo").onkeypress = soloAlfanumericos;
+
+		}
+
+	// Utilidades
+
+		function soloNumeros(e){
+			
+			var valido = true;
+
+			if ("0123456789".indexOf(e.key) == -1) valido = false;
+
+			return valido;
+		}	
+
+		function soloLetras(e){
+	
+			var valido = false;
+
+			if ((e.key >= 'a' && e.key <= 'z') ||
+				(e.key >= 'A' && e.key <= 'Z' ) || 
+				"áéíóúÁÉÍÓÚñÑ ".indexOf(e.key) != -1) {
+					valido = true;
+				}
+
+			return valido;
+		}	
+
+		function calcularFactorial(num){
+
+			var resultado;
+			
+			if (num == 1 || num == 0) resultado = 1;
+			else resultado = num * calcularFactorial(num-1);
+			
+			console.log(resultado);
+			return resultado;
+
+		}
+
+		
+		function soloAlfanumericos(e){
+			
+			var valido = true;
+
+			if ((e.key >= 'a' && e.key <= 'z') ||
+				(e.key >= 'A' && e.key <= 'Z' ) || 
+				"áéíóúÁÉÍÓÚñÑ ".indexOf(e.key) != -1 ||
+				"0123456789".indexOf(e.key) == -1) {
+					valido = true;
+				}
+
+			return valido;
+		}	
+
+	// 1. Factorial
+
+		function factorial(){
+			var numero = document.getElementById("numero");
+			var resultado = 0;
+			var textoResultado = document.getElementById("resFactorial");
+			
+			if (numero.value != "") resultado = calcularFactorial(parseInt(numero.value));
+			else resultado = "inserte un número, por favor";
+
+			textoResultado.innerHTML = resultado;
+		}
+	// 2. Datos Personales
+
+		function datosPersonales(){
+			var nombre = document.getElementById("nombre");
+			var dia = document.getElementById("fDia");
+			var meses = document.getElementById("fMes");
+			var mesSeleccionado = meses.value;
+			var resHoroscopo = document.getElementById("resHoroscopo");
+			var estacion = "";
+
+			switch(mesSeleccionado){
+				case "1":
+				case "2":
+					estacion = "invierno";
+					break;
+				case "3":
+					if (dia.value < 21) estacion = "invierno";
+					else estacion = "primavera";
+					break;
+				case "4":
+				case "5":
+					estacion = "primavera";
+					break;
+				case "6":
+					if (dia.value < 21) estacion = "primavera";
+					else estacion = "verano";
+					break;
+				case "7":
+				case "8":
+					estacion = "verano";
+					break;
+				case "9":
+					if (dia.value < 21) estacion = "verano";
+					else estacion = "otoño";
+					break;
+				case "10":
+				case "11":
+					estacion = "otoño";
+					break;
+				case "12":
+					if (dia.value < 21) estacion = "otoño";
+					else estacion = "invierno";
+					break;
+			}
+
+			if (nombre.value == "" || dia.value == "") resHoroscopo.innerHTML = "introduce los datos, por favor";
+			else resHoroscopo.innerHTML = nombre.value+","+" has nacido en "+estacion;
+			
+		}
+
+
+	// 3. Generador de Párrafos
+
+		function generarParrafos(){
+			var cantidadParrafos = document.getElementById("nParrafos");
+			var contenidoParrafos = document.getElementById("contParrafo");
+			var parrafosGenerados = document.getElementById("listaParrafos");
+
+			console.log(cantidadParrafos.value);
+			console.log(contenidoParrafos.value);
+			console.log(parrafosGenerados.innerHTML);
+
+			if (cantidadParrafos.value == "" || contenidoParrafos.value == ""){
+				parrafosGenerados.innerHTML ="Por favor, introduce todos los campos";
+			} 
+			else {
+				parrafosGenerados.innerHTML = "";
+				for (var i = 0; i < cantidadParrafos.value ; i++){
+					parrafosGenerados.innerHTML += contenidoParrafos.value+"</br>"; 
+				}
+			}
+		}
+
+    </script>
+  </head>
+  
+  <body>
+
+    <div id="factorial">
+			<h3>Cálculo del factorial de un número</h3>
+			<label>Introduce número: </label>
+			<input type="text" id="numero">
+		
+			<button id="btFactorial">Calcular Factorial</button>
+			<label>Resultado: </label><span id="resFactorial"></span>
+		</div>
+		
+		
+		<div id="datos">
+			<h3>Datos personales</h3>
+			<label>Nombre: </label>
+			<input type="text" id="nombre">
+			<br><br>
+			<label>Fecha de nacimiento</label>
+			<br><br>
+			<label>Día: </label>
+			<input type="text" id="fDia" size="2">
+			<br><br>
+			<label>Mes: </label>
+			<select id="fMes">
+				<option value="1">Enero</option>
+				<option value="2">Febrero</option>
+				<option value="3">Marzo</option>
+				<option value="4">Abril</option>
+				<option value="5">Mayo</option>
+				<option value="6">Junio</option>
+				<option value="7">Julio</option>
+				<option value="8">Agosto</option>
+				<option value="9">Septiembre</option>
+				<option value="10">Octubre</option>
+				<option value="11">Noviembre</option>
+				<option value="12">Diciembre</option>
+			</select>
+			<br><br>
+		
+			<button id="btHoroscopo">Calcular Horóscopo</button>
+			<br><br>
+			<label>Resultado: </label><span id="resHoroscopo"></span>
+		</div>
+		
+		
+		<div id="genParrafos">
+			<h3>Generación de párrafos</h3>
+			<label>Número párrafos: </label>
+			<input type="text" id="nParrafos">
+			<br><br>
+			<label>Contenido párrafos: </label>
+			<br>
+			<textarea id="contParrafo"></textarea>
+			<br>
+			<button id="btParrafos">Generar párrafos</button>
+			<br><br>
+			<label>Resultado: </label>
+			<br><br>
+			<div id="listaParrafos">
+			</div>
+			
+		</div>
+    
+  </body>
+  
+</html>

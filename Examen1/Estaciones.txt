@@ -1,0 +1,9 @@
+
+
+Estaciones astronómico
+Hemisferio norte
+Primavera: 21 marzo hasta 20 junio
+Verano: 21 junio hasta 20 septiembre
+Otoño: 21 septiembre hasta 20 diciembre
+Invierno: 21 diciembre hasta 20 marzo
+
