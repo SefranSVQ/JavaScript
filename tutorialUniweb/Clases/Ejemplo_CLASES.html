@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Ejercicio/Ejemplo CLASES en Javascript</title>
+		
+		<style type="text/css">
+			#salida {
+				margin-left: 4%;
+			}
+			
+		</style>
+		
+		<script type="text/javascript">
+		
+		//  Creamos la Clase Punto:
+		class Punto {
+    	constructor(f = 0, c = 0) {  //  Ahora se le pueden dar valores por defecto a los parámetros en las funciones.
+    		if (f instanceof Punto) {
+					this.y = f.y;
+					this.x = f.x;
+				} else {
+					this.y = f;
+					this.x = c;
+				}	
+    	}  //  constructor
+    	
+    	//  Métodos:
+    	mostrar() {
+    		return this.x + ", " + this.y;
+    	}
+    	F_mostrar() {
+    		return "(" + this.x + ", " + this.y + ")";
+    	}
+    }  //  Punto
+
+			
+			
+			
+			
+			
+			
+			
+		//  Creamos la clase Ciculo:
+		class Circulo{
+			constructor(f = 0, c = 0, r = 0){
+				if (f instanceof Punto) {
+					this.p = f;
+					this.r = c;
+				} else {
+					this.p = new Punto(f, c);
+					this.r = r;
+				}
+			}
+
+			//  Métodos:
+			mostrar() {
+				return ("(" + this.p.x + ", " + this.p.y + ", " + this.r + ")");
+			}
+			LongCircunferencia() {
+				return (2 * Math.PI * this.r);
+			}
+			Area() {
+				return (Math.PI * Math.pow(this.r, 2));
+			}
+
+		}  //  Circulo
+
+		class Cilindro{
+			constructor(f = 0, c = 0, r = 0, h = 0){
+				if (f instanceof Circulo) {  //  Si se le pasa ya un círculo, entonces NO hay que crearlo.
+					this.c = f;
+					this.h = c;
+				} else {
+					if (f instanceof Punto) {  //  Si el primer parámetro NO es un círculo, puede que sea un punto.
+						this.c = new Circulo(f, c); 
+						this.h = r;
+					} else {  //  Si no es ni un círculo ni un punto, estonces nos están dando las coordenadas y el radio. 
+						this.c = new Circulo(new Punto(f,c), r);
+						this.r = r;
+					}
+				}
+			}
+
+			//  Métodos:
+			mostrar() {
+				return ("(" + this.c.p.x + ", " + this.c.p.y + ", " + this.c.r + ", " + this.h + ")");
+			}
+			Volumen() {
+				return (this.c.Area() * this.h);
+			}
+
+		}  //  Cilindro
+
+		
+			
+		//  Utilizamos las clases anteriormente definidas:
+		function probar(salida) {
+
+			var sal = "<p> Creamos un Punto p: <br>";
+			var p = new Punto(11, 15);
+			
+			sal += "p = " + p.mostrar() + "</p>";
+			sal += "<p>Creamos dos Circulos c1 y c2: <br>";
+			
+			var c1 = new Circulo(26, 42, 8);
+			var c2 = new Circulo(p, 4);
+			
+			sal += "c1 = " +  c1.mostrar() + "<br>";
+			sal += "c2 = " +  c2.mostrar() + "<br> </p>";
+			
+			sal += "Longitud Circunferencia c1 = " +  c1.LongCircunferencia() + "<br>";
+			sal += "Longitud Circunferencia c2 = " +  c2.LongCircunferencia() + "<br>";
+			
+			sal += "Área c1 = " +  c1.Area() + "<br>";
+			sal += "Área c2 = " +  c2.Area() + "<br> </p>";
+
+			var cilindro1 = new Cilindro(c1, 10);
+			
+			var cilindro2 = new Cilindro(c2, 15);
+			sal += "<p>Creamos dos Cilindros cilindro1 y cilindro1: <br>";
+			sal += "cilindro1 = " + cilindro1.mostrar() + "<br>";
+			sal += "cilindro2 = " + cilindro2.mostrar() + "<br>";
+			sal += "Volumen cilindro1 = " + cilindro1.Volumen() + "<br>";
+			sal += "Volumen cilindro1 = " + cilindro2.Volumen() + "<br> </p>";
+			
+			
+			//  EJERCICIO:
+	//		sal += "<h3>Como Ejercicio crear las clases: RECTANGULO (que utiliza 2 puntos) y CAJA (que es un rectángulo con profundidad)</h3>";
+	//		sal += "(La clase RECTANGULO tendrá, además el método área que se calculará: base * altura ==> se calcularán a partir de los dos puntos)<br>";
+	//		sal += "(La clase CAJA tendrá, además el método volumen que se calculará a partir de la profundidad)<br>";
+			
+			document.getElementById(salida).innerHTML = sal;	
+		}
+
+		</script>
+
+	</head>
+
+	<body>
+		<br>
+		<h2>Ejercicio/Ejemplo CLASES en Javascript</h2>
+		<h3>Esto es un ejemplo de como crear e instanciar clases en javascript</h3>
+		<h5>En Javascript, cualquier función puede ser una clase.</h5>
+		<br/>
+		
+		<p>
+			<button onclick="probar('salida')">
+				Probar
+			</button>
+		</p>
+		<div id="salida">	
+		</div>
+
+	</body>
+</html>

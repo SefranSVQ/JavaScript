@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Ejercicio Tablas. CREAR TABLAS V2</title>
+
+		<script type="text/javascript">
+
+			//Funciones Utilidad
+		function soloNumeros(e){
+			var valido = true;
+			if ("0123456789".indexOf(e.key) == -1) valido = false;
+			return valido;
+		}	
+
+		window.onload = function(){
+			document.getElementById("btGenTabla").onclick = generarTabla;
+			document.getElementById("nfilas").onkeypress = soloNumeros;
+			document.getElementById("ncolumnas").onkeypress = soloNumeros;
+		}
+
+		function generarTabla(){
+
+			var divTabla = document.getElementById("tabla");
+			var numFilas = document.getElementById("nfilas").value;
+			var numColumnas = document.getElementById("ncolumnas").value;
+			var tabla = document.createElement("table");
+			var cabecera = document.createElement("thead");
+			var cuerpo = document.createElement("tbody");
+			var fila, columna;
+
+			var texto = document.createTextNode("");
+			divTabla.innerHTML="";
+			tabla.border = 1;
+			tabla.appendChild(cabecera);
+			tabla.appendChild(cuerpo);
+
+			for (i = 0; i < numFilas ; i++){
+				if (i != 0) fila = document.createElement("tr");
+				for (j = 0; j < numColumnas ; j++){
+					columna = document.createElement("td");
+					texto.value = i+","+j
+					columna.innerHTML = texto.value;
+					if (i != 0) fila.appendChild(columna);
+					else cabecera.appendChild(columna);
+				}
+				if (i != 0) cuerpo.appendChild(fila);
+			}
+			divTabla.appendChild(tabla);
+		}
+
+
+			
+			
+		</script>
+
+	</head>
+
+	<body>
+		<br>
+		<h2>Ejercicio Tablas. CREAR TABLAS V2</h2>
+		<h3>Introducir el código javascript necesario, para que al pulsar sobre
+		el botón, se cree una tabla con un número fijo de filas y columnas. </h3>
+		
+		<h3>Ahora generamos la tabla con formato: "thead" y "tbody"</h3>
+		
+		<br/>
+		<form>
+			<p>
+				<label for="nfilas">Introduce el número de filas:</label>
+				<input type="number" id="nfilas" value="4" min="1" max="1000" />
+				<br />
+				<label for="ncolumnas">Introduce el número de columnas:</label>
+				<input type="number" id="ncolumnas" value="5" min="1" max="1000" />
+			</p>
+			<p>
+				<button type="button" id="btGenTabla">
+					Generar Tabla
+				</button>
+			</p>
+		</form>
+		<br>
+
+		<div id="tabla">
+			Aquí se colocará la tabla que se cree dinámicamente con javascript.
+		</div>
+
+	</body>
+</html>

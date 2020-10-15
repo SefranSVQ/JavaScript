@@ -179,6 +179,7 @@ function soloNumerosDecimales(e){
 	
     var valido = true;
 
+    if (e.key == '.' && this.value.indexOf(".") != -1) valido = false; // Si ha introducido punto y ya contiene uno en el texto.
     if (".0123456789".indexOf(e.key) == -1) valido = false;
 
     return valido;
@@ -194,11 +195,8 @@ Esta función permite comprobar si una tecla introducida es un valor numérico e
 */
 
 function soloNumeros(e){
-	
     var valido = true;
-
     if ("0123456789".indexOf(e.key) == -1) valido = false;
-
     return valido;
 }	
 
@@ -283,52 +281,141 @@ function validarDni(dni) {
     return valido;
 }
 
-// Test 
+// Generador de Párrafos
 
+function generarParrafos(){
+    var cantidadParrafos = document.getElementById("nParrafos");
+    var contenidoParrafos = document.getElementById("contParrafo");
+    var parrafosGenerados = document.getElementById("listaParrafos");
+
+    if (cantidadParrafos.value == "" || contenidoParrafos.value == ""){
+        parrafosGenerados.innerHTML ="Por favor, introduce todos los campos";
+    } 
+    else {
+        parrafosGenerados.innerHTML = "";
+        for (var i = 0; i < cantidadParrafos.value ; i++){
+            parrafosGenerados.innerHTML += "<p>"+contenidoParrafos.value+"</p>"; //crear parrafos con createElement y añadir con appendChild
+        }
+    }
+}
+
+// Generador de tabla
+
+function generarTabla(){
+
+    var divTabla = document.getElementById("tabla");
+    var numFilas = document.getElementById("nfilas").value;
+    var numColumnas = document.getElementById("ncolumnas").value;
+    var tabla = document.createElement("table");
+    var cabecera = document.createElement("thead");
+    var cuerpo = document.createElement("tbody");
+    var fila, columna;
+
+    var texto = document.createTextNode("");
+    divTabla.innerHTML="";
+    tabla.border = 1;
+    tabla.appendChild(cabecera);
+    tabla.appendChild(cuerpo);
+
+    for (i = 0; i < numFilas ; i++){
+        if (i != 0) fila = document.createElement("tr");
+        for (j = 0; j < numColumnas ; j++){
+            columna = document.createElement("td");
+            texto.value = i+","+j
+            columna.innerHTML = texto.value;
+            if (i != 0) fila.appendChild(columna);
+            else cabecera.appendChild(columna);
+        }
+        if (i != 0) cuerpo.appendChild(fila);
+    }
+    divTabla.appendChild(tabla);
+}
+
+function soloNumerosDecimalesComa(e){
+	
+    var valido = true;
+    // Si ha introducido coma y ya contiene una en el texto, no es correcta la entrada.
+    if (e.key == ',' && this.value.indexOf(",") != -1) valido = false; 
+    if (",0123456789".indexOf(e.key) == -1) valido = false;
+
+    return valido;
+}
+
+function soloNumerosEnteros(e){
+	
+    var valido = true;
+
+    if ("0123456789".indexOf(e.key) == -1) valido = false;
+    // Si la tecla introducida es un - y no hay ninguna al principio del valor del input, agrégalo.
+    if (e.key == '-' && e.originalTarget.value[0] != '-') {
+        e.originalTarget.value = '-'+e.originalTarget.value;
+    } 
+    return valido;
+}	
+
+function soloNumerosDecimalesE(e){
+	
+    var valido = true;
+
+        // Si ha introducido punto y ya contiene uno en el texto, no es válido.
+    if (e.key == '.' && this.value.indexOf(".") != -1) valido = false; 
+    if (".0123456789".indexOf(e.key) == -1) valido = false;
+    // Si la tecla introducida es un - y no hay ninguna al principio del valor del input, agrégalo.
+    if (e.key == '-' && e.originalTarget.value[0] != '-') {
+        e.originalTarget.value = '-'+e.originalTarget.value;
+    } 
+
+    return valido;
+}	
+
+function cambiarComasPorPuntos(cadena){
+    for (var i in cadena){
+      if (cadena[i] == ',') cadena[i] = '.';
+    }
+    return cadena;
+  }
+
+function genTabla(array){
+
+    var tabla = document.createElement("table");
+    var cabecera = document.createElement("thead");
+    var cuerpo = document.createElement("tbody");
+    var texto = document.createTextNode("");
+    var fila, columna;
+
+    tabla.border = 1;
+    tabla.appendChild(cabecera);
+    tabla.appendChild(cuerpo);
+
+    for (i = 0; i < array.length ; i++){
+        if (i != 0) fila = document.createElement("tr");
+        for (j = 0; j < array[i].length ; j++){
+            columna = document.createElement("td");
+            texto.value = array[i][j];
+            columna.innerHTML = texto.value;
+            if (i != 0) fila.appendChild(columna);
+            else cabecera.appendChild(columna);
+        }
+        if (i != 0) cuerpo.appendChild(fila);
+    }
+    return tabla;
+}
+
+// Test 
 window.onload = function(){
 
-    var infoFechas = document.getElementById("infoFechas");
+    var info = document.getElementById("info");
+    var miArray =   [
+                    [1,2,3,4],
+                    ['h','o','y'," Estoy feliz por lo bien que me ha salido el examen (o eso creo)"],
+                    [1,2,3,4],
+                    ];
 
-    // Test validarFecha
-
-    infoFechas.innerHTML += "Tests de validarFecha: </br></br>";
-    infoFechas.innerHTML += "Fecha 1/1/2020 : "+validarFecha(1,1,2020)+"</br>";
-    infoFechas.innerHTML += "Fecha 1/12/2020 : "+validarFecha(1,12,2020)+"</br>";
-    infoFechas.innerHTML += "Fecha 31/1/2020 : "+validarFecha(31,1,2020)+"</br></br>";
-
-    infoFechas.innerHTML += "Fecha 1/1/-2020 : "+validarFecha(1,1,-2020)+"</br>";
-    infoFechas.innerHTML += "Fecha 1/-1/2020 : "+validarFecha(1,-1,2020)+"</br>";
-    infoFechas.innerHTML += "Fecha -1/1/2020 : "+validarFecha(-1,1,2020)+"</br></br>";
-
-    infoFechas.innerHTML += "Fecha 1/13/2020 : "+validarFecha(1,13,2020)+"</br>";
-    infoFechas.innerHTML += "Fecha 32/1/2020 : "+validarFecha(32,1,2020)+"</br></br>";
-
-    infoFechas.innerHTML += "Fecha 31/4/2020 : "+validarFecha(31,4,2020)+"</br>";
-    infoFechas.innerHTML += "Fecha 31/6/2020 : "+validarFecha(31,6,2020)+"</br></br>";
-
-    infoFechas.innerHTML += "Fecha 29/2/2020 : "+validarFecha(29,2,2020)+"</br>";
-    infoFechas.innerHTML += "Fecha 29/2/2019 : "+validarFecha(29,2,2019)+"</br></br>";
-
-    infoFechas.innerHTML += "Fecha kk/k/kkkk : "+validarFecha("kk","kk","kkkk")+"</br></br>";
-
-    infoFechas.innerHTML += "Fecha 11/1/2.19 : "+validarFecha(1.1,1,2.19)+"</br></br>";
-
-    // Test soloLetra
-
-    infoFechas.innerHTML += "Tests de soloLetras: </br>";
-    var infoFechas = document.getElementById("nombre");
-    infoFechas.onkeypress = soloLetras;
-
-    // Test validarDNI
-    var infoDNI = document.getElementById("infoDNI");
-
-    infoDNI.innerHTML += "Tests de validarDNI: </br></br>";
-    infoDNI.innerHTML += "DNI - 00000000T: "+validarDni("00000000T")+"</br>";
-    infoDNI.innerHTML += "DNI - 0000000T: "+validarDni("0000000T")+"</br>";
-    infoDNI.innerHTML += "DNI - 00000000t: "+validarDni("00000000t")+"</br>";
-    infoDNI.innerHTML += "DNI - x0000000T: "+validarDni("x0000000T")+"</br>";
-    infoDNI.innerHTML += "DNI - 00000001R: "+validarDni("00000001R")+"</br>";
-    infoDNI.innerHTML += "DNI - y0000001R: "+validarDni("y000001R")+"</br>";
+    var miTabla = genTabla(miArray);
+    console.log(miTabla);
+    console.log(miArray);
+    info.appendChild(miTabla);
+    info.append(miTabla);
 
 }
 

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>   
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Plantilla</title>
-		
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Plantilla</title>
+	<link rel="stylesheet" type="text/css" href="Examen_1.css" title="style" />
     <script type="text/javascript">
 	
 		window.onload = function (){
@@ -29,9 +29,7 @@
 		function soloNumeros(e){
 			
 			var valido = true;
-
 			if ("0123456789".indexOf(e.key) == -1) valido = false;
-
 			return valido;
 		}	
 
@@ -145,17 +143,13 @@
 			var contenidoParrafos = document.getElementById("contParrafo");
 			var parrafosGenerados = document.getElementById("listaParrafos");
 
-			console.log(cantidadParrafos.value);
-			console.log(contenidoParrafos.value);
-			console.log(parrafosGenerados.innerHTML);
-
 			if (cantidadParrafos.value == "" || contenidoParrafos.value == ""){
 				parrafosGenerados.innerHTML ="Por favor, introduce todos los campos";
 			} 
 			else {
 				parrafosGenerados.innerHTML = "";
 				for (var i = 0; i < cantidadParrafos.value ; i++){
-					parrafosGenerados.innerHTML += contenidoParrafos.value+"</br>"; 
+					parrafosGenerados.innerHTML += "<p>"+contenidoParrafos.value+"</p>"; //crear parrafos con createElement y añadir con appendChild
 				}
 			}
 		}
@@ -166,65 +160,65 @@
   <body>
 
     <div id="factorial">
-			<h3>Cálculo del factorial de un número</h3>
-			<label>Introduce número: </label>
-			<input type="text" id="numero">
-		
-			<button id="btFactorial">Calcular Factorial</button>
-			<label>Resultado: </label><span id="resFactorial"></span>
+		<h3>Cálculo del factorial de un número</h3>
+		<label>Introduce número: </label>
+		<input type="text" id="numero">
+	
+		<button id="btFactorial">Calcular Factorial</button>
+		<label>Resultado: </label><span id="resFactorial"></span>
+	</div>
+	
+	
+	<div id="datos">
+		<h3>Datos personales</h3>
+		<label>Nombre: </label>
+		<input type="text" id="nombre">
+		<br><br>
+		<label>Fecha de nacimiento</label>
+		<br><br>
+		<label>Día: </label>
+		<input type="text" id="fDia" size="2">
+		<br><br>
+		<label>Mes: </label>
+		<select id="fMes">
+			<option value="1">Enero</option>
+			<option value="2">Febrero</option>
+			<option value="3">Marzo</option>
+			<option value="4">Abril</option>
+			<option value="5">Mayo</option>
+			<option value="6">Junio</option>
+			<option value="7">Julio</option>
+			<option value="8">Agosto</option>
+			<option value="9">Septiembre</option>
+			<option value="10">Octubre</option>
+			<option value="11">Noviembre</option>
+			<option value="12">Diciembre</option>
+		</select>
+		<br><br>
+	
+		<button id="btHoroscopo">Calcular Horóscopo</button>
+		<br><br>
+		<label>Resultado: </label><span id="resHoroscopo"></span>
+	</div>
+	
+	
+	<div id="genParrafos">
+		<h3>Generación de párrafos</h3>
+		<label>Número párrafos: </label>
+		<input type="text" id="nParrafos">
+		<br><br>
+		<label>Contenido párrafos: </label>
+		<br>
+		<textarea id="contParrafo"></textarea>
+		<br>
+		<button id="btParrafos">Generar párrafos</button>
+		<br><br>
+		<label>Resultado: </label>
+		<br><br>
+		<div id="listaParrafos">
 		</div>
 		
-		
-		<div id="datos">
-			<h3>Datos personales</h3>
-			<label>Nombre: </label>
-			<input type="text" id="nombre">
-			<br><br>
-			<label>Fecha de nacimiento</label>
-			<br><br>
-			<label>Día: </label>
-			<input type="text" id="fDia" size="2">
-			<br><br>
-			<label>Mes: </label>
-			<select id="fMes">
-				<option value="1">Enero</option>
-				<option value="2">Febrero</option>
-				<option value="3">Marzo</option>
-				<option value="4">Abril</option>
-				<option value="5">Mayo</option>
-				<option value="6">Junio</option>
-				<option value="7">Julio</option>
-				<option value="8">Agosto</option>
-				<option value="9">Septiembre</option>
-				<option value="10">Octubre</option>
-				<option value="11">Noviembre</option>
-				<option value="12">Diciembre</option>
-			</select>
-			<br><br>
-		
-			<button id="btHoroscopo">Calcular Horóscopo</button>
-			<br><br>
-			<label>Resultado: </label><span id="resHoroscopo"></span>
-		</div>
-		
-		
-		<div id="genParrafos">
-			<h3>Generación de párrafos</h3>
-			<label>Número párrafos: </label>
-			<input type="text" id="nParrafos">
-			<br><br>
-			<label>Contenido párrafos: </label>
-			<br>
-			<textarea id="contParrafo"></textarea>
-			<br>
-			<button id="btParrafos">Generar párrafos</button>
-			<br><br>
-			<label>Resultado: </label>
-			<br><br>
-			<div id="listaParrafos">
-			</div>
-			
-		</div>
+	</div>
     
   </body>
   

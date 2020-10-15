@@ -1,0 +1,18 @@
+body{
+    width: 400px;
+    margin: auto;
+}
+
+#divIzq{
+    position: relative;
+    float: left;
+    width:200px;
+    height:100px;
+}
+
+ #divDer{
+    position: relative;
+    float: right;
+    width:200px;
+    height:100px;
+}
