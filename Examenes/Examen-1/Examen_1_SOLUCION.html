@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Examen 1</title>
+    <style type="text/css">
+      #datos_calculo {
+        margin-left: 20px;
+        margin-right: 77px;
+        float: left;
+      }
+      
+      #figuras {
+        text-align: center;
+        margin: 0 20px;
+        float: left;
+        margin-bottom: 40px;
+      }
+      
+      #ecuacion {
+        margin: 0 20px;
+        float: left;
+      }
+  
+      
+    #soluciones {
+      border: solid 1px blue;
+      width: 17em;
+      height: 7em;
+      padding: 0.4em;
+      display: inline-block;
+    }
+    
+    #titulo_sol {
+      font-size: 1.2em;
+      color: blue;
+    }
+    
+    
+    
+    #fracciones {
+    		clear: both;
+        margin-left: 20px;
+        padding: 15px;
+    /*    border: 2px solid blue;  */
+      }
+      
+      .fraccion {
+        float: left;
+        margin: 8px;
+   /*     border: 1px solid blue;     */
+      }
+      
+      .fraccion input {
+        display: block;
+      }
+      
+      #SolFracciones {
+        margin: 25px;
+        overflow: hidden;
+      }
+    
+    
+    
+      
+    </style>
+
+    <script type="text/javascript">
+		
+		//  Depuración de las Entradas:
+
+		//  Permitir SOLO números con decimales. Separador es la coma (,):
+		function PermiteSoloNumerosDecimalesComa(e) {
+			var c = e.charCode || window.event.keyCode;
+			if (c == 44)
+				return (this.value.indexOf(",") == -1)
+			else
+				return ((c >= 48) && (c <= 57));
+    }
+		
+		
+		
+		
+		
+		
+		//  Permitir SOLO números con signo (en la primera posición):
+		function PermiteSoloNumerosEnterosSigno(e) {
+			var c = e.charCode || window.event.keyCode;
+			//  Permitir el signo menos ( - ) sólo uno y en la primera posición:
+      if (c == 45) {
+				if (this.value.indexOf("-") == -1) 
+					this.value = "-" + this.value;
+				return false;
+      }
+			return ((c >= 48) && (c <= 57));
+    }
+		
+		//  Permitir SOLO números con decimales. Separador es el punto (.) y que se le pueda meter números negativos:
+    function PermiteSoloNumerosDecimalesPuntoSigno(e) {
+      var c = e.charCode || window.event.keyCode;
+      //  Permitir el signo menos ( - ) sólo uno y en la primera posición:
+      if (c == 45) {
+				if (this.value.indexOf("-") == -1)
+					this.value = "-" + this.value;
+        return false;
+      }
+       
+      if (c == 46)
+				return (this.value.indexOf(".") == -1)
+			else
+        return ((c >= 48) && (c <= 57));
+    }
+
+
+    
+    window.onload = function() {
+		
+			//  Asigno el evento correspondiente a los inputs de las áreas:
+			var cajas = document.getElementById("datos_calculo").getElementsByTagName("input");
+			console.log("cajas: ", cajas);
+			for (var i in cajas) {
+				if (cajas[i].type == "text")
+					cajas[i].onkeypress = PermiteSoloNumerosDecimalesComa;
+			}
+			
+			//  Asigno el evento correspondiente a los inputs de la ecuacion:
+			var cajas = document.getElementById("ecuacion").getElementsByTagName("input");
+			console.log("cajas: ", cajas);
+			for (var i in cajas) {
+				if (cajas[i].type == "text")
+					cajas[i].onkeypress = PermiteSoloNumerosEnterosSigno;
+			}
+			
+			//  Asigno el evento correspondiente a los inputs de las fracciones:
+			var cajas = document.getElementById("listaFracciones").getElementsByTagName("input");
+			console.log("cajas: ", cajas);
+			for (var i in cajas) {
+				if ((cajas[i].type == "text") & (cajas[i].readOnly == false))
+					cajas[i].onkeypress = PermiteSoloNumerosDecimalesPuntoSigno;
+			}
+		
+		
+			//  Para realizar los cálculos:
+			document.getElementById("btCalcular").onclick = Calcular;
+			document.getElementById("btSolEc").onclick = Calcular_Ecuacion;
+
+			//  Para asignar los eventos a las fracciones:
+			document.getElementById("btAnade").onclick = AnadeFraccion;
+			document.getElementById("btSolF").onclick = SumaFracciones;
+			document.getElementById("btSolF_V2").onclick = SumaFracciones_V2;
+			
+		}
+
+      
+		function Calcular() {
+			//  Recojo los valores (he de reemplazar las , por .):
+			var base = document.getElementById("base").value.replace(",",".");
+			var altura = document.getElementById("altura").value.replace(",",".");
+			var profundidad = document.getElementById("profundidad").value.replace(",",".");
+			var radio = document.getElementById("radio").value.replace(",",".");
+			
+			//  Area del Rectangulo:
+			var aR = base * altura;
+			document.getElementById("area_rectangulo").value = aR;
+			
+			//  Volumen de la Caja:
+			var vC = aR * profundidad;
+			document.getElementById("volumen_caja").value = vC;
+			
+			//  Area del Triángulo:
+			var aT = aR / 2;
+			document.getElementById("area_triangulo").value = aT;
+			
+
+			//  Area del Círculo (PI * r2): 
+			var aC = Math.PI * Math.pow(radio, 2);
+			document.getElementById("area_circulo").value = aC;
+			
+			
+			//  Volumen del Cilindro:
+			var vCi = aC * altura;
+			document.getElementById("volumen_cilindro").value = vCi;
+			
+			
+			//  Volumen de la Esfera:
+			var vE = ((4 * Math.PI) / 3) * Math.pow(radio, 3); 
+			document.getElementById("volumen_esfera").value = vE; 
+		}
+ 
+ 
+		function Calcular_Ecuacion() {
+			var x1, x2, det;
+			var a = parseFloat(document.getElementById("a").value);
+			var b = parseFloat(document.getElementById("b").value);
+			var c = parseFloat(document.getElementById("c").value);
+ //     x1 = (-b + Math.sqrt( (Math.pow(b, 2) - 4*a*c)))/ 2*a;
+			det = Math.pow(b, 2) - 4*a*c;
+			if (det < 0) {
+				x1 = "Sin solución con números Reales";
+				x2 = "Sin solución con números Reales";
+			} else {
+				x1 = (-b + Math.sqrt(det)) /(2*a);
+				x2 = (-b - Math.sqrt(det)) /(2*a);
+			}
+			document.getElementById("sol_x1").innerHTML = x1;
+			document.getElementById("sol_x2").innerHTML = x2; 
+		}
+      
+     
+     
+     
+     //  PARA LAS FRACCIONES:
+     
+     function SumaFracciones() {
+        var p1 = document.getElementById("a1").value * document.getElementById("b2").value;
+        var p2 = document.getElementById("b1").value * document.getElementById("a2").value; 
+        var pSum = p1+p2;
+        var pDen = document.getElementById("b1").value * document.getElementById("b2").value; 
+        document.getElementById("r1").value = pSum;
+        document.getElementById("r2").value = pDen;
+        document.getElementById("rf").value = pSum/pDen;
+     }
+     
+     
+     function AnadeFraccion() {
+      	var lista = document.getElementById("listaFracciones");
+      	var linputs = lista.getElementsByTagName("input");
+      	
+      	var max = linputs[linputs.length-1].getAttribute("id").substring(1);
+      	max++;
+      	
+      	//  Clonamos la suma:
+      	var sn = document.getElementById("fsuma").cloneNode(true);
+      	//  Clonamos la primera fracción:
+      	var fn = document.getElementById("f1").cloneNode(true);
+
+      	var li = fn.getElementsByTagName("input");
+      	li[0].setAttribute("id", "a"+max);
+      	li[1].setAttribute("id", "b"+max);
+      	
+      	//  Añadimos la suma y la nueva fracción:
+      	lista.appendChild(sn);
+      	lista.appendChild(fn);
+     }
+     
+     
+     function SumaFracciones_V2() {
+        //  Obtengo Todos los input:
+        var lista = document.getElementById("listaFracciones").getElementsByTagName("input");
+        
+        //  Los paso a 2 array:
+        var aa = new Array();
+        var ab = new Array();
+        for(var i=0; i < lista.length; i++) {
+        	if (lista[i].getAttribute("id").substring(0,1) == "a")
+        		aa.push(lista[i].value);
+        	else
+        		ab.push(lista[i].value);  
+        }
+        
+        //  Ahora realizo las sumas de fracciones:
+        var atemp = aa[0];
+        var btemp = ab[0];
+        for(var i=1; i < aa.length; i++) {
+        	atemp = atemp*ab[i] + btemp*aa[i];
+        	btemp = btemp*ab[i];
+        }
+        
+        //  Pinto los resultados:
+        document.getElementById("r1").value = atemp;
+        document.getElementById("r2").value = btemp;
+        document.getElementById("rf").value = atemp/btemp;
+     }
+     
+     
+    
+    </script>
+
+
+  </head>
+
+  <body>
+
+    <h2>Cálculo de Áreas y Volúmenes</h2>
+
+    <div id="datos_calculo">
+      <p>
+        Introduce los datos para el Cálculo:
+      </p>
+      <p>
+        Base (b) :
+        <input type="text" id="base" name="base" value="9" size="4" maxlength="8">
+        <br/>
+        Altura (h):
+        <input type="text" id="altura" name="altura" value="11" size="4" maxlength="8">
+        <br/>
+        Profundidad (c):
+        <input type="text" id="profundidad" name="profundidad" value="13" size="4" maxlength="8">
+        <br/>
+        Radio (r):
+        <input type="text" id="radio" name="radio" value="15" size="4" maxlength="8">
+        <br/>
+      </p>
+      <br/>
+      <input id="btCalcular" type="button" value="CALCULAR">
+    </div>
+    
+    <div id="figuras">
+      <table border="1">
+        <thead>
+          <tr>
+            <th>AREAS</th>
+            <th>VOLUMENES</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td> Rectángulo
+            <br>
+            <img src="imagenes/Rectangulo.gif" width="150" height="150" alt="Rectángulo"/>
+            <br>
+            Area:
+            <input type="text" id="area_rectangulo" name="area_rectangulo" value="" readonly="readonly" />
+            </td>
+            <td> Caja
+            <br>
+            <img src="imagenes/Ortoedro.gif" width="150" height="150" alt="Caja"/>
+            <br>
+            Volumen:
+            <input type="text" id="volumen_caja" name="volumen_caja" value="" readonly="readonly" />
+            </td>
+          </tr>
+          <tr>
+            <td> Triángulo
+            <br>
+            <img src="imagenes/Triangulo.gif" width="150" height="150" alt="Triángulo"/>
+            <br>
+            Area:
+            <input type="text" id="area_triangulo" name="area_triangulo" value="" readonly="readonly" />
+            </td>
+            <td> Cilindro
+            <br>
+            <img src="imagenes/Cilindro.gif" width="150" height="150" alt="Cilindro"/>
+            <br>
+            Volumen:
+            <input type="text" id="volumen_cilindro" name="volumen_cilindro" value="" readonly="readonly" />
+            </td>
+          </tr>
+          <tr>
+            <td> Círculo
+            <br>
+            <img src="imagenes/Circulo.gif" width="150" height="150" alt="Círculo"/>
+            <br>
+            Area:
+            <input type="text" id="area_circulo" name="area_circulo" value="" readonly="readonly" />
+            </td>
+            <td> Esfera
+            <br>
+            <img src="imagenes/Esfera.gif" width="150" height="150" alt="Esfera"/>
+            <br>
+            Volumen:
+            <input type="text" id="volumen_esfera" name="volumen_esfera" value="" readonly="readonly" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    
+    <div id="ecuacion">
+      <h3>Solución para la Ecuación de 2º Grado</h3>
+      <p>
+        <input type="text" id="a" name="a" value="4" size="1" maxlength="4" /> X2 + 
+        <input type="text" id="b" name="b" value="-11" size="1" maxlength="4"  /> X + 
+        <input type="text" id="c" name="c" value="2" size="1" maxlength="4"  /> = 0 
+        <input id="btSolEc" type="button" value="Calcular Ec.">
+      </p>
+      <p>
+        <div id="soluciones"><span id="titulo_sol">Soluciones:</span> 
+          <span id="valores_sol"> 
+            <p>
+              X1 = <span id="sol_x1"> </span> <br />
+              X2 = <span id="sol_x2"> </span>
+            </p>
+          </span>
+        </div>
+      </p>
+    </div>
+    
+    
+    <br>
+    
+    
+    <div id="fracciones">
+      <h3>Suma de Fracciones:</h3>
+      <div id="SolFracciones">
+      	
+       <div id="listaFracciones">
+       	
+        <div id="f1" class="fraccion">
+        <input type="text" id="a1" name="a1" value="2" size="1" maxlength="4" /> 
+        <div> <hr align="left"> </div>
+        <input type="text" id="b1" name="b1" value="3" size="1" maxlength="4"  /> 
+
+        </div>
+        
+        <div id="fsuma" class="fraccion"><br>  + <br> </div>
+        
+        <div id="f2" class="fraccion">
+        <input type="text" id="a2" name="a2" value="3" size="1" maxlength="4"  /> 
+        <div> <hr align="left"> </div>
+        <input type="text" id="b2" name="b2" value="5" size="1" maxlength="4"  />
+        </div>
+        
+        
+   
+       </div>
+       
+        
+        
+        <div class="fraccion"><br>  = <br> </div>
+        
+        <div class="fraccion">
+        <input type="text" id="r1" name="r1" value="" size="1" maxlength="4" readonly="readonly" /> 
+        <div> <hr align="left"> </div>
+        <input type="text" id="r2" name="r2" value="" size="1" maxlength="4" readonly="readonly" />
+        </div>
+        
+         <div class="fraccion"><br>  = <br> </div>
+        
+        <div class="fraccion"><br>  <input type="text" id="rf" name="rf" readonly="readonly" /> <br> </div>
+        
+      </div>
+      
+       <p>
+       	<input id="btAnade" type="button" value="Añadir Fracción"> 
+       	<input id="btSolF" type="button" value="Calcular Suma">
+        <input id="btSolF_V2" type="button" value="Calcular Suma V2">
+       </p>
+
+      
+    </div>
+    
+    
+
+  </body>
+</html>

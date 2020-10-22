@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Ejercicio/Ejemplo HERENCIA en Javascript</title>
+
+		<style type="text/css">
+			#salida {
+				margin-left: 4%;
+			}
+
+		</style>
+
+		<script type="text/javascript">
+			
+			 // Novedades ECMAScript 6.
+    
+    
+    //  Creamos la Clase Punto:
+    class Punto {
+    	constructor(f = 0, c = 0) {  //  Ahora se le pueden dar valores por defecto a los parámetros en las funciones.
+    		if (f instanceof Punto) {
+					this.y = f.y;
+					this.x = f.x;
+				} else {
+					this.y = f;
+					this.x = c;
+				}	
+    	}  //  constructor
+    	
+    	//  Métodos:
+    	mostrarP() {
+    		return this.x + ", " + this.y;
+    	}
+    	F_mostrar() {
+    		return "(" + this.x + ", " + this.y + ")";
+    	}
+    }  //  Punto
+    
+    
+    class Circulo extends Punto {
+    	constructor(f=0, c=0, r=0) {
+	    	super(f, c); //  llamamos al constructor de la clase base.  
+	      if (f instanceof Circulo)
+					this.r = f.r;
+				else
+					if (f instanceof Punto)
+						this.r = c;
+					else
+						this.r = r;
+	    }  //  constructor
+    	
+    	//  Métodos:
+    	
+    	//  Definimos (y NO REdefinimos) el método mostrar:
+			mostrarC() {
+				return this.mostrarP() + ", " + this.r; 
+			}
+		
+			//  REDEFINIMOS el método F_mostrar:
+			F_mostrar() {
+				var res = super.F_mostrar();
+				return res + " esto es nuevo "  +  "(" + this.x + ", " + this.y + ", " + this.r + ")";
+			}
+		
+			LongCircunferencia() {
+				return (2 * Math.PI * this.r);
+			}
+			
+			Area() {
+				return (Math.PI * Math.pow(this.r, 2));
+			}	
+    }  //  Circulo
+    
+    
+    class Cilindro extends Circulo {
+    
+    	constructor(f=0, c=0, r=0, h=0) {
+    		super(f, c, r);  //  llamamos al constructor de la clase base.
+    		
+    		if (f instanceof Circulo) 
+					this.h = c;
+				else 
+					this.h = h;
+    	}  //  constructor
+    	
+    	//  Métodos:
+    	mostrarCI() {
+				return "(" + this.x + ", " + this.y + ", " + this.r + ", " + this.h + ")";
+			}
+			Volumen() {
+				return (this.Area() * this.h);
+			}
+
+    }  //  Cilindro
+
+
+			
+		//  Utilizamos las clases anteriormente definidas:
+		function probar(salida) {
+
+			var sal = "<p> Creamos un Punto p: <br>";
+			var p1 = new Punto(11, 15);
+			
+			sal += "p1 = " + p1.mostrarP() + "<br/>";
+			sal += "(con formato) p1 = " + p1.F_mostrar() + "<br/>";
+			sal += "ahora creamos otro punto (p2) a partir del anterior, lo modificamos e imprimimos los dos: <br/>";
+			var p2 = new Punto(p1);
+			p1.x = 69;
+			sal += "p1 = " + p1.mostrarP() + "<br/>";
+			sal += "p2 = " + p2.mostrarP() + "</p>";
+			
+			sal += "<p>Creamos dos Circulos c1 y c2: <br>";
+
+			var c1 = new Circulo(26, 42, 8);
+			var c2 = new Circulo(p2, 4);
+
+			sal += "c1 = " + c1.mostrarC() + "<br>";
+			sal += "(con formato) c1 = " + c1.F_mostrar() + "<br>";
+			
+			sal += "el punto de c1 es: " + c1.mostrarP() + "<br>";
+			
+			sal += "c2 = " + c2.mostrarC() + "<br> </p>";
+
+			sal += "Longitud Circunferencia c1 = " + c1.LongCircunferencia() + "<br>";
+			sal += "Longitud Circunferencia c2 = " + c2.LongCircunferencia() + "<br>";
+
+			sal += "Área c1 = " + c1.Area() + "<br>";
+			sal += "Área c2 = " + c2.Area() + "<br> </p>";
+			
+			var cilindro1 = new Cilindro(c1, 10);
+			var cilindro2 = new Cilindro(c2, 15);
+			
+			sal += "<p>Creamos dos Cilindros cilindro1 y cilindro1: <br>";
+			sal += "cilindro1 = " + cilindro1.mostrarCI() + "<br>";
+			sal += "cilindro2 = " + cilindro2.mostrarCI() + "<br>";
+			
+			sal += "Volumen cilindro1 = " + cilindro1.Volumen() + "<br>";
+			sal += "Volumen cilindro2 = " + cilindro2.Volumen() + "<br> </p>";
+			
+			document.getElementById(salida).innerHTML = sal;
+
+			console.log(p1);
+			console.log(cilindro1);
+			console.log(cilindro2);
+			console.log(document.getElementById(salida));
+		}
+
+		</script>
+	</head>
+
+	<body>
+		<br>
+		<h2>Ejercicio/Ejemplo HERENCIA en Javascript</h2>
+		<h3>Esto es un ejemplo de como crear e instanciar clases en javascript</h3>
+		<h5>En Javascript, cualquier función puede ser una clase.</h5>
+
+		<p>
+			<button onclick="probar('salida')">
+				Probar
+			</button>
+		</p>
+		<div id="salida"> </div>
+
+	</body>
+</html>

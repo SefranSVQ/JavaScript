@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Ejercicio/Ejemplo CLASES en Javascript</title>
+		
+		<style type="text/css">
+			#salida {
+				margin-left: 4%;
+			}
+			
+		</style>
+		
+		<script type="text/javascript">
+		
+			//  Creamos la Clase Punto:
+			class Punto {
+	    	constructor(f = 0, c = 0) {
+					this.y = f;
+					this.x = c;
+	    	}  //  constructor
+    	
+	    	//  Métodos:
+	    	mostrar() {
+	    		return "(" + this.x + ", " + this.y + ")";
+	    	}
+    	}  //  Punto
+
+
+   		class Rectangulo{  //  Un rectángulo se compone de dos puntos.
+				//  Suponemos que, o nos pasan dos Puntos o nos pasan 4 coordenadas (2 por cada punto):
+   			constructor(f1 = 0, c1 = 0, f2 = 0, c2 = 0){
+   				if (f1 instanceof Punto)
+						this.p1 = new Punto(f1.y, f1.x); 
+					else
+						this.p1 = new Punto(f1, c1);
+						
+					if (c1 instanceof Punto)
+						this.p2 = new Punto(c1.y, c1.x); 
+					else
+						this.p2 = new Punto(f2, c2);
+
+					//  base y altura serán "atributos" privados (realmente no lo son):
+					//  (se utiliza, _ y es una convención generalmente aceptada)
+					this._base = Math.abs(this.p1.x - this.p2.x);
+					this._altura = Math.abs(this.p1.y - this.p2.y);
+	   		}
+
+				//  Métodos:
+				//  Definimos (y NO REdefinimos) el método mostrar:
+				mostrar() {
+					return "(" + this.p1.x + ", " + this.p1.y + "  --  " + this.p2.x + ", " + this.p2.y + ")";
+				}
+				Area() {
+					return (this._base * this._altura);
+				}
+				Perimetro() {
+					return (2 * this._base + 2 * this._altura);
+				}
+   		}  //  Rectangulo
+
+
+			class Cubo{ //  p = profundidad (la tercera dimensión del cubo)
+				//  Suponemos que, o nos pasan un Rectangulo o nos pasan las 4 coordenadas (4 números)
+				constructor(f1=0, c1=0, f2=0, c2=0, p=0){
+					if (f1 instanceof Rectangulo) {  
+					
+						this.r = new Rectangulo(f1.p1.y, f1.p1.x, f1.p2.y, f1.p2.x);
+					//	this.r = f1;
+						
+						this.p = c1;
+					} else {
+						this.r = new Rectangulo(f1, c1, f2, c2);
+						this.p = p;
+					}
+				}
+
+				//  Métodos:
+				mostrar() {
+					return "( " + this.r.mostrar() + "  <- prof ->  " + this.p + " )"; 
+			//		return "(" + this.r.p1.x + ", " + this.r.p1.y + ", " + this.r.p2.x + ", " + this.r.p2.y + this.p + ")";
+				}
+				Volumen() {
+					return (this.r.Area() * this.p);
+				}
+
+			}  //  Cubo
+			
+			
+			
+			
+		//  Utilizamos las clases anteriormente definidas:
+		function probar(salida) {
+
+			var sal = "<p> Creamos dos Puntos p1 y p2: <br>";
+			var p1 = new Punto(11, 15);
+			var p2 = new Punto(26, 42);
+			
+			sal += "p1 = " + p1.mostrar() + "<br/>";
+			sal += "p2 = " + p2.mostrar() + "</p>";
+			
+			sal += "<p>Creamos dos Rectangulos r1 y r2: <br>";
+			
+			var r1 = new Rectangulo(5, 7, 9, 11);
+			var r2 = new Rectangulo(p1, p2);
+			
+			sal += "r1 = " +  r1.mostrar() + "<br>";
+			sal += "r2 = " +  r2.mostrar() + "<br> </p>";
+			
+			sal += "<p>Perímetro r1 = " +  r1.Perimetro() + "<br>";
+			sal += "Perímetro r2 = " +  r2.Perimetro() + "<br>";
+			
+			sal += "Área c1 = " +  r1.Area() + "<br>";
+			sal += "Área c2 = " +  r2.Area() + "<br> </p>";
+
+			
+			sal += "<p>Creamos dos Cubos: cubo1 y cubo2: <br>";
+			var cubo1 = new Cubo(r1, 10);
+			var cubo2 = new Cubo(r2, 15);
+
+			sal += "cubo1 = " + cubo1.mostrar() + "<br>";
+			sal += "cubo2 = " + cubo2.mostrar() + "<br>";
+			sal += "Volumen cubo1 = " + cubo1.Volumen() + "<br>";
+			sal += "Volumen cubo2 = " + cubo2.Volumen() + "<br> </p>";
+			
+			
+			document.getElementById(salida).innerHTML = sal;	
+		}
+
+		</script>
+
+	</head>
+
+	<body>
+		<br>
+		<h2>Ejercicio CLASES en Javascript</h2>
+		<h3>En este ejercicio se deben de crear las clases Rectangulo y Cubo, usando la clase Punto.</h3>
+		(un rectángulo se compone de 2 puntos y un cubo es un rectángulo con profundidad)
+		<h5>Además se deben crear los método para calcular el área y el volumen del rectangulo y el cubo.</h5>
+		<br/>
+		
+		<p>
+			<button onclick="probar('salida')">
+				Probar
+			</button>
+		</p>
+		<div id="salida">	
+		</div>
+
+	</body>
+</html>

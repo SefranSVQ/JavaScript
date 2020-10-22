@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>   
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <title>Plantilla</title>
+    <script type="text/javascript">
+		
+		function prueba(){
+      
+			var ob1 = {};
+			var myCar = new Object();
+			console.log("ob1: ", ob1);
+			console.log("myCar: ", myCar);
+			
+			var ob2 = {
+				pop1: "esta es la pop1", 
+				edad: 26, 
+				fecha: new Date(), 
+				saludo:"hola",
+				miMetodo: function(){
+					alert("Mi mamá me mima");
+				}
+			}
+			
+			ob2.miMetodo();
+			
+			console.log("esto es ob2: ", ob2);
+
+			ob1.atributo1 = "Esto es un atributo";
+
+			ob1.metodo = function(){
+				console.log("estoy en le método método de ob1");
+			};
+			
+			var otroNombre = ob1;
+
+			console.log("ob1 (3): ", ob1);
+			
+			ob1.metodo();
+			
+
+			otroNombre.atributo1 = "Cambio atributo1";
+			
+			
+		//	otroNombre.atributo1;
+			}
+			
+			prueba();
+      
+      
+    </script>
+  </head>
+  
+  <body>
+
+    
+    
+  </body>
+  
+</html>

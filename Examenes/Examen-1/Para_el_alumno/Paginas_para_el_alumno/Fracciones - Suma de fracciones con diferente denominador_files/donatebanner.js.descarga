@@ -1,0 +1,1 @@
+$().ready(bannerReady);function bannerReady(){$(".donateCerrar").live("click",function(e){e.preventDefault();$(".whitebckdonate").addClass("topup");$("#the_header").removeClass("topdoscientossesenta");$(".main").removeClass("toprel");$("#the_footer").removeClass("margintoprel");e.stopImmediatePropagation();});}

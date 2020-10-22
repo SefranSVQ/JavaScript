@@ -1,0 +1,104 @@
+
+
+
+
+    1. Para los inputs de los campos: base, altura, profundidad y rádio. 0,5 puntos.
+
+	Lo hace: 0,5
+
+
+
+
+    2. Para los tres inputs del cálculo de la ecuación de 2º grado. 0,5 puntos.
+
+	Permite escribir letras y de todo.
+
+	NO Lo hace: 0
+
+
+
+
+    3. Para los inputs de la(s) suma(s) de fracciones. 0,5 puntos.
+
+	Permite escribir letras y de todo.
+
+	NO Lo hace: 0
+
+
+
+
+
+    4. Dada la página web (Examen_1.html) botón CALCULAR. 1 punto.
+
+	
+	Lo hace. 1
+
+
+
+
+    5. Añadir código botón Calcular Ec. 1 punto.
+
+	Calcula mal las dos soluciones.
+
+
+	NO Lo hace. 0
+
+
+
+
+    6.  Se indica al usuario si una determinada ecuación no tiene soluciones, 0,5 puntos.
+
+
+	Lo hace. 0,5
+
+
+
+
+    7. Suma de dos fracciones, botón Calcular Suma. 1 punto.
+
+
+	Lo hace. 1
+
+
+
+
+    8. Botón Añadir Fracción. 1,5 puntos.
+
+
+	Lo hace. 1,5
+
+
+
+
+    9.  botón Calcular Suma V2 realizará la suma de TODAS las fracciones. 2 puntos.
+
+
+	Lo hace. 2
+
+
+
+
+
+    10. Crear una función llamada genTabla. 1,5 puntos.
+
+
+	Lo hace. 1,5
+
+
+
+
+
+    11. Crear Desarrollar una función que devuelve un array con el contenido de las celdas de una tabla
+	 que se le pasa como parámetro. 1,5 puntos.
+
+	Devuelve un array 1D, y mal. Devolución incorrecta.
+
+
+	No lo hace. 0
+
+
+
+
+	NOTA: 8
+
+

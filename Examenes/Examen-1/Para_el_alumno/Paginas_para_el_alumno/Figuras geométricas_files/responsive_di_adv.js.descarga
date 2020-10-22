@@ -1,0 +1,71 @@
+var is_mobile;
+  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    is_mobile = true;
+  }else{
+    is_mobile = false;
+  }
+  if(is_mobile){
+    document.write('<link rel="stylesheet" type="text/css" href="https://www.ditutor.com/css/qn.css" />'); 
+	document.write('<link rel="stylesheet" type="text/css" media="all" href="https://www.vitutor.name/css/slicknav.css"/>');
+	document.write('<script src="https://www.vitutor.name/js/jquery.slicknav.min.js"></script>'); 
+  }
+  
+  // DOM ready
+  $(function() {
+      // Create the dropdown base
+	  if ($('table.responsive').length > 0)  $('table.responsive').responsiveTables();
+	  
+      $("<ul />", {id: "menuExpansible"}).appendTo("nav#menu-tema");
+      
+      // Create default option "Go to..."	  
+	  $("<li/>").appendTo("#menuExpansible");
+	  
+	   $("<a />", {
+		   "href" : 'https://www.ditutor.com/',
+		   "title" : 'Inicio. Index', 
+		   "text" : 'Inicio'
+	   }).appendTo("#menuExpansible li");
+	   
+	   $("<li/>").appendTo("#menuExpansible");
+	  
+	   $("<a />", {
+		   "href" : 'https://www.ditutor.com/math_dictionary.html',
+		   "title" : 'Inicio. Index', 
+		   "text" : 'Maths'
+	   }).appendTo("#menuExpansible li:eq(1)");
+	   
+	  
+	  var hasNav = $("#menu-letras");
+	  var hasUl = hasNav.children("ul").children("li").clone();
+	 
+	  hasUl.appendTo("#menuExpansible");	 
+	  
+	  if(is_mobile){  
+	  	$('#menuExpansible').slicknav({
+				label: '',
+				prependTo:'body'
+		});
+		
+		$("footer").before ( '  \
+		  <div style="margin-bottom:40px;text-align:center;margin-top:40px;"> \
+			<div id="google-search"> \
+				<form action="https://www.google.es" id="cse-search-box"> \
+				  <div> \
+					<input type="hidden" name="cx" value="partner-pub-9406468284585792:1673440348" /> \
+					<input type="hidden" name="ie" value="UTF-8" /> \
+					<input type="text" name="q" size="22" /> \
+					<input type="submit" name="sa" value="Buscar" /> \
+				  </div> \
+				</form> \
+				<script type="text/javascript" src="https://www.google.es/coop/cse/brand?form=cse-search-box&amp;lang=es"></script> \
+			  </div><!--fin div#google-search--> \
+			  </div> \
+			  ');
+	  }
+	
+
+	  
+	  $('.slicknav_menu').prepend('<div class="logo"><img src="https://www.ditutor.com/images/logo.png" width="150" height="35" alt="Vitutor"></div>');
+ 
+  });
+    
